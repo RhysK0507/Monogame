@@ -7,14 +7,13 @@ namespace StateMachines.Scripts
 {
     internal class GameOver
     {
-        private double timeLimit;
-        private double totalTime;
+        private double timeLimit = 5.0f;
+        private double totalTime = 0.0f;
 
 
         public E_Gamestates Update(double deltaTime)
         {
-            totalTime += 0.0f;
-            timeLimit += 5.0f;
+            
 
             totalTime += deltaTime;
 

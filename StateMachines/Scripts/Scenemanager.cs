@@ -14,7 +14,7 @@ namespace StateMachines.Scripts
 
 
 
-        public void SceneManager(Vector2 ScreenRect)
+        public Scenemanager(Vector2 ScreenRect)
         {
             E_States = E_Gamestates.MENU;
             GameMenu = new Menu(ScreenRect);
@@ -22,7 +22,7 @@ namespace StateMachines.Scripts
             gameOver = new GameOver();
         }
 
-        private void Update(Game1 game, GameTime time)
+        public void Update(Game1 game, GameTime time)
         {
             double deltaTime = time.ElapsedGameTime.TotalSeconds;
 
@@ -43,7 +43,7 @@ namespace StateMachines.Scripts
         }
 
 
-        private void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics)
         {
             switch (E_States)
             {
