@@ -11,7 +11,7 @@ namespace StateMachines.Scripts
         private double totalTime;
 
 
-        private E_Gamestates Update(double deltaTime)
+        public E_Gamestates Update(double deltaTime)
         {
             totalTime += 0.0f;
             timeLimit += 5.0f;
@@ -29,7 +29,7 @@ namespace StateMachines.Scripts
             return E_Gamestates.GAMEOVER;
         }
 
-        private void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics)
         {
             graphics.Clear(Color.Yellow);
             

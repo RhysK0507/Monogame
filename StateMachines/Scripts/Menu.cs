@@ -16,7 +16,7 @@ namespace StateMachines.Scripts
             ScreenWH = dimensions;
         }
 
-        private E_Gamestates Update(Game1 game) 
+        public E_Gamestates Update(Game1 game) 
         {
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && Mouse.GetState().X >= 0 && Mouse.GetState().X <= ScreenWH.X - 1 && Mouse.GetState().Y >= 0 && Mouse.GetState().Y <= ScreenWH.Y - 1)
             {
@@ -33,7 +33,7 @@ namespace StateMachines.Scripts
 
         }
 
-        private void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics)
         {
             graphics.Clear(Color.White);
         }
