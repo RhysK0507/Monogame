@@ -1,12 +1,39 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+
 
 namespace StateMachines.Scripts
 {
     internal class GameOver
     {
+        private double timeLimit;
+        private double totalTime;
+
+
+        private E_Gamestates Update(double deltaTime)
+        {
+            totalTime += 0.0f;
+            timeLimit += 5.0f;
+
+            totalTime += deltaTime;
+
+            if (totalTime >= timeLimit)
+            {
+                totalTime = 0.0f;
+                return E_Gamestates.MENU;
+            }
+
+
+
+            return E_Gamestates.GAMEOVER;
+        }
+
+        private void Draw(GraphicsDevice graphics)
+        {
+            graphics.Clear(Color.Yellow);
+            
+        }
+
     }
 }
