@@ -13,10 +13,10 @@ namespace StateMachines.Scripts
         protected Vector2 StartPos;
         protected Vector2 CurrentPos;
 
-        public void Start(Vector2 startPos, Vector2 currentPos) 
+        public Creature(Vector2 Pos) 
         {
-            StartPos = startPos;
-            CurrentPos = currentPos;
+            StartPos = Pos;
+            CurrentPos = StartPos;
 
         }
 
@@ -44,6 +44,11 @@ namespace StateMachines.Scripts
         {
             CurrentPos.X = StartPos.X;
             CurrentPos.Y = StartPos.Y;   
+        }
+
+        public Vector2 GetPos()
+        {
+            return CurrentPos;
         }
 
     }
