@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace StateMachines.Scripts
 {
@@ -21,9 +17,9 @@ namespace StateMachines.Scripts
             Score = 0;
         }
 
-        public void GetLives(int lives)
+        public int GetLives()
         {
-            return; 
+            return CurrentLives; 
         }
 
         public void ReduceLives()

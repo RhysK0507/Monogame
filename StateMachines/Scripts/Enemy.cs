@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace StateMachines.Scripts
 {
@@ -27,7 +23,7 @@ namespace StateMachines.Scripts
                 LEFT();
             }
 
-            if (player.GetPos().Y > CurrentPos.Y)
+            if (player.GetPos().Y < CurrentPos.Y)
             {
                 UP();
             }
@@ -38,14 +34,14 @@ namespace StateMachines.Scripts
             }
         }
 
-        public void Caught(Player player, Enemy enemy)
+        public bool Caught(Player player)
         {
-            if (player.GetPos() == enemy.GetPos())
+            if (player.GetPos() == this.GetPos())
             {
-                return;
+                return true;
             }
 
-            return;
+            return false;
         }
     } 
 }

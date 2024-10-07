@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Numerics;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace StateMachines.Scripts
 {
@@ -22,12 +18,12 @@ namespace StateMachines.Scripts
 
         public void UP()
         {
-            CurrentPos.Y += 1;
+            CurrentPos.Y -= 1;
         }
 
         public void DOWN()
         {
-            CurrentPos.Y -= 1;
+            CurrentPos.Y += 1;
         }
 
         public void LEFT()
