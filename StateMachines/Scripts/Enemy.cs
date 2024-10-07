@@ -15,13 +15,36 @@ namespace StateMachines.Scripts
               
         }
 
-        public void Chase()
+        public void Chase(Player player)
         {
+            if (player.GetPos().X > CurrentPos.X)
+            {
+                RIGHT();
+            }
 
+            if (player.GetPos().X < CurrentPos.X)
+            {
+                LEFT();
+            }
+
+            if (player.GetPos().Y > CurrentPos.Y)
+            {
+                UP();
+            }
+
+            if (player.GetPos().Y > CurrentPos.Y)
+            {
+                DOWN();
+            }
         }
 
-        public void Caught()
+        public void Caught(Player player, Enemy enemy)
         {
+            if (player.GetPos() == enemy.GetPos())
+            {
+                return;
+            }
+
             return;
         }
     } 
