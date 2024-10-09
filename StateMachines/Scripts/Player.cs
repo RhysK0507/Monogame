@@ -35,5 +35,25 @@ namespace StateMachines.Scripts
             }
         }
 
+        public override void UP()
+        {
+            CurrentPos.Y -= 2;
+        }
+
+        public override void DOWN()
+        {
+            CurrentPos.Y += 2;
+        }
+
+        public override void LEFT()
+        {
+            CurrentPos.X -= 2;
+        }
+
+        public override void RIGHT()
+        {
+            CurrentPos.X += 2;
+        }
+
     }
 }
