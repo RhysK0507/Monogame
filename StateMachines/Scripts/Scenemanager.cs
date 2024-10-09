@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Content;
 
 namespace StateMachines.Scripts
 {
@@ -12,7 +13,10 @@ namespace StateMachines.Scripts
         private PlayGame play;
         private GameOver gameOver;
 
-
+        public void LoadContent(ContentManager cm) 
+        { 
+            play.LoadContent(cm);
+        }
 
         public Scenemanager(Vector2 ScreenRect)
         {
@@ -43,21 +47,25 @@ namespace StateMachines.Scripts
         }
 
 
-        public void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics, SpriteBatch sprite)
         {
+            sprite.Begin();
+
             switch (E_States)
             {
                 case E_Gamestates.MENU:
                     GameMenu.Draw(graphics);
                     break;
                 case E_Gamestates.PLAY:
-                    play.Draw(graphics);
+                    play.Draw(graphics, sprite);
                     break;
                 case E_Gamestates.GAMEOVER:
                     gameOver.Draw(graphics);
                     break;
                 default: break;
             }
+
+            sprite.End();
         }
 
         private void SwitchState(E_Gamestates state)
