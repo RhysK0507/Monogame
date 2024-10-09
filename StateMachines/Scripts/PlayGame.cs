@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
+using System.Threading;
 
 
 namespace StateMachines.Scripts
@@ -19,11 +21,37 @@ namespace StateMachines.Scripts
             System.Console.WriteLine("Enemy position = " + enemy.GetPos());
         }
 
+        public void LoadContent(ContentManager cm)
+        {
+            player.LoadContent(cm, "Chara6");
+            enemy.LoadContent(cm, "Orc2");
+        }
+
         public E_Gamestates Update()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 return E_Gamestates.MENU;
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.W)) 
+            {
+                player.UP();
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.A))
+            {
+                player.LEFT();
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                player.RIGHT();
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                player.DOWN();
             }
 
 
@@ -50,9 +78,16 @@ namespace StateMachines.Scripts
 
         }
 
-        public void Draw(GraphicsDevice graphics)
+        public void Draw(GraphicsDevice graphics, SpriteBatch sprite)
         {
             graphics.Clear(Color.Red);
+
+            sprite.Begin();
+
+            player.Draw(sprite, new Rectangle(0, 0, 52, 72));
+            enemy.Draw(sprite, new Rectangle(0, 0, 52, 72));
+
+            sprite.End();
 
         }
     }
