@@ -82,12 +82,10 @@ namespace StateMachines.Scripts
         {
             graphics.Clear(Color.Red);
 
-            sprite.Begin();
 
             player.Draw(sprite, new Rectangle(0, 0, 52, 72));
             enemy.Draw(sprite, new Rectangle(0, 0, 52, 72));
 
-            sprite.End();
 
         }
     }

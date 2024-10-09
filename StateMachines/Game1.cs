@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StateMachines.Scripts;
@@ -36,6 +37,7 @@ namespace StateMachines
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            _scenemanager.LoadContent(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -58,7 +60,7 @@ namespace StateMachines
 
             // TODO: Add your drawing code here
 
-            _scenemanager.Draw(GraphicsDevice);
+            _scenemanager.Draw(GraphicsDevice, _spriteBatch);
 
             base.Draw(gameTime);
         }
