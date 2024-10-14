@@ -17,7 +17,7 @@ namespace StateMachines.Scripts
         private string[] levelfile;
         private int currentLevel;
         
-        public void setCur()
+        public Level()
         {
             currentLevel = 1;
             BuildNewLevel();
@@ -26,7 +26,7 @@ namespace StateMachines.Scripts
         public void LoadContent(ContentManager cm, string name)
         {
             wall = cm.Load<Texture2D>(name);
-            wh = new Vector2(wall.Bounds.X, wall.Bounds.Y);
+            wh = new Vector2(wall.Width, wall.Height);
         }
 
         private int GetArrayWidth()
@@ -56,7 +56,7 @@ namespace StateMachines.Scripts
 
         public void BuildNewLevel()
         {
-            levelfile = File.ReadAllLines(@"..\levels\Level " + currentLevel + ".txt");
+            levelfile = File.ReadAllLines(@"..\Levels\Level " + currentLevel + ".txt");
             foreach (var line in levelfile)
             {
                 Console.WriteLine(line);
@@ -70,13 +70,13 @@ namespace StateMachines.Scripts
 
         public void Draw(SpriteBatch sprite)
         {
-            for (int i = 0; i < GetArrayWidth(); i++) 
+            for (int col = 0; col < GetArrayWidth(); col++) 
             {
-                for (int j = 0; j < GetArrayHeight(); j++)
+                for (int row = 0; row < GetArrayHeight(); row++)
                 {
-                    if (levelfile[i] == "W")
+                    if (levelfile[row][col] == 'W')
                     {
-                        sprite.Draw(wall, new Vector2(wall.Width * i, wall.Height * j), Color.White);
+                        sprite.Draw(wall, new Vector2(wall.Width * col, wall.Height * row), Color.White);
                     }
                 }
             }

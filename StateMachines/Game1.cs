@@ -11,17 +11,12 @@ namespace StateMachines
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private Scenemanager _scenemanager;
-        private Vector2 _position;
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            _graphics.PreferredBackBufferWidth = 1024;
-            _graphics.PreferredBackBufferHeight = 768;
-
-            _position = new Vector2(_graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight); 
 
         }
 
@@ -29,7 +24,7 @@ namespace StateMachines
         {
             // TODO: Add your initialization logic here
 
-            _scenemanager = new Scenemanager(_position);
+            _scenemanager = new Scenemanager();
 
             base.Initialize();
         }
@@ -37,7 +32,7 @@ namespace StateMachines
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _scenemanager.LoadContent(Content);
+            _scenemanager.LoadContent(Content, _graphics);
 
             // TODO: use this.Content to load your game content here
         }
