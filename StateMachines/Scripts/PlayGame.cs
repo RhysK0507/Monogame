@@ -12,19 +12,23 @@ namespace StateMachines.Scripts
     {
         private Player player;
         private Enemy enemy;
+        private Level level;
 
         public PlayGame()
         {
             player = new Player(new Vector2 (200,200), 3);
-            System.Console.WriteLine("Player position = " + player.GetPos());
             enemy = new Enemy(new Vector2(50, 50));
-            System.Console.WriteLine("Enemy position = " + enemy.GetPos());
+            level = new Level;
         }
 
-        public void LoadContent(ContentManager cm)
+        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics)
         {
             player.LoadContent(cm, "Chara6");
             enemy.LoadContent(cm, "Orc2");
+            level.LoadContent(cm, "Wall1");
+            graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
+            graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
+            graphics.ApplyChanges();
         }
 
         public E_Gamestates Update()
@@ -56,13 +60,11 @@ namespace StateMachines.Scripts
 
 
             enemy.Chase(player);
-            System.Console.WriteLine("Player position = " + player.GetPos() + "Player lives" + player.GetLives());
-            System.Console.WriteLine("Enemy position = " + enemy.GetPos());
 
             if (enemy.Caught(player))
             {
                 player.ReduceLives();
-                System.Console.WriteLine("Player position = " + player.GetPos() + "Player lives" + player.GetLives());
+                System.Console.WriteLine("Player lives" + player.GetLives());
                 player.ResetPos();
                 enemy.ResetPos();
             }
@@ -71,8 +73,10 @@ namespace StateMachines.Scripts
             {
                 System.Console.WriteLine("Player is dead");
                 player.ResetLives();
+                level.ResetLevel();
                 return E_Gamestates.GAMEOVER;
             }
+
 
             return E_Gamestates.PLAY;
 
@@ -82,11 +86,17 @@ namespace StateMachines.Scripts
         {
             graphics.Clear(Color.Red);
 
+            level.Draw(sprite);
+
 
             player.Draw(sprite, new Rectangle(0, 0, 52, 72));
             enemy.Draw(sprite, new Rectangle(0, 0, 52, 72));
-
-
         }
+
+        public Vector2 GetScreenWH()
+        {
+            return level.GetLevelSize();
+        }
+
     }
 }

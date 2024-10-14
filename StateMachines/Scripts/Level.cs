@@ -74,7 +74,7 @@ namespace StateMachines.Scripts
             {
                 for (int j = 0; j < GetArrayHeight(); j++)
                 {
-                    if (levelfile[i] == W)
+                    if (levelfile[i] == "W")
                     {
                         sprite.Draw(wall, new Vector2(wall.Width * i, wall.Height * j), Color.White);
                     }

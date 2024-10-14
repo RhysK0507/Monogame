@@ -13,15 +13,15 @@ namespace StateMachines.Scripts
         private PlayGame play;
         private GameOver gameOver;
 
-        public void LoadContent(ContentManager cm) 
+        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics) 
         { 
-            play.LoadContent(cm);
+            play.LoadContent(cm, graphics);
+            GameMenu = new Menu(play.GetScreenWH());
         }
 
-        public Scenemanager(Vector2 ScreenRect)
+        public Scenemanager()
         {
             E_States = E_Gamestates.MENU;
-            GameMenu = new Menu(ScreenRect);
             play = new PlayGame();
             gameOver = new GameOver();
         }
