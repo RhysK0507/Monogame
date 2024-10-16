@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System.IO;
 using System.Threading;
+using System.Windows.Forms.Automation;
 
 
 namespace StateMachines.Scripts
@@ -98,5 +99,14 @@ namespace StateMachines.Scripts
             return level.GetLevelSize();
         }
 
+        public int GetLevelNumber()
+        {
+            return level.returnLevel();
+        }
+
+        public int GetLives()
+        {
+            return player.GetLives();
+        }
     }
 }

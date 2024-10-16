@@ -12,11 +12,19 @@ namespace StateMachines.Scripts
         private Menu GameMenu;
         private PlayGame play;
         private GameOver gameOver;
+        private SpriteFont font;
+        private string text;
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics) 
-        { 
+        {
+            font = cm.Load<SpriteFont>("File");
             play.LoadContent(cm, graphics);
             GameMenu = new Menu(play.GetScreenWH());
+        }
+
+        private void SetMessage(string str)
+        {
+            text = str;
         }
 
         public Scenemanager()
@@ -33,7 +41,8 @@ namespace StateMachines.Scripts
             switch (E_States)
             {
                 case E_Gamestates.MENU:
-                    SwitchState(GameMenu.Update(game)); 
+                    SwitchState(GameMenu.Update(game));
+                   
                     break;
                 case E_Gamestates.PLAY:
                     SwitchState(play.Update()); 
@@ -58,8 +67,14 @@ namespace StateMachines.Scripts
                     break;
                 case E_Gamestates.PLAY:
                     play.Draw(graphics, sprite);
+                    SetMessage("This is the Game Pay screen. Level: " + play.GetLevelNumber());
+                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 500, 0), Color.Blue);
+                    SetMessage("Lives: " + play.GetLives());
+                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 800, 0), Color.Red);
                     break;
                 case E_Gamestates.GAMEOVER:
+                    SetMessage("This is the Game Over screen. You lost!");
+                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 500, 0), Color.Red);
                     gameOver.Draw(graphics);
                     break;
                 default: break;
