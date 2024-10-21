@@ -19,7 +19,7 @@ namespace StateMachines.Scripts
         {
             level = new Level();
             player = new Player(new Vector2(200, 200), 3, new Rectangle(0, 0, 52, 72), level);
-            enemy = new Enemy(new Vector2(50, 50), new Rectangle(0, 0, 52, 72), level);           
+            enemy = new Enemy(new Vector2(500, 500), new Rectangle(0, 0, 52, 72), level);           
         }
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics)
