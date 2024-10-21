@@ -98,7 +98,7 @@ namespace StateMachines.Scripts
         {
             return level.GetLevelSize();
         }
-
+         
         public int GetLevelNumber()
         {
             return level.returnLevel();
