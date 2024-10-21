@@ -7,6 +7,7 @@ using SharpDX.Direct3D9;
 using System;
 using System.IO;
 using System.Linq;
+using System.Security.Policy;
 
 namespace StateMachines.Scripts
 {
@@ -80,6 +81,16 @@ namespace StateMachines.Scripts
                     }
                 }
             }
+        }
+
+        public bool IsWall(int Xpos, int Ypox)
+        {
+            if (levelfile[(int)(Ypox / wall.Height)][(int)(Xpos/ wall.Width)] == 'W')
+                {
+                    return true;
+                }
+                else
+                    return false;                            
         }
     }
 
