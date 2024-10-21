@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.Runtime.Loader;
+using Microsoft.VisualBasic.ApplicationServices;
 
 namespace StateMachines.Scripts
 {
@@ -11,6 +12,8 @@ namespace StateMachines.Scripts
         protected Vector2 StartPos;
         protected Vector2 CurrentPos;
         protected Texture2D Sprite;
+        public Level currentLevel;
+        public Rectangle frame;
 
         public void LoadContent(ContentManager cm, string name)
         {
@@ -22,8 +25,10 @@ namespace StateMachines.Scripts
             spritebatch.Draw(Sprite, CurrentPos, rect, Color.White);
         }
 
-        public Creature(Vector2 Pos) 
+        public Creature(Vector2 Pos, Rectangle rect, Level cLevel) 
         {
+            frame = rect;
+            currentLevel = cLevel;
             StartPos = Pos;
             CurrentPos = StartPos;
 
@@ -31,22 +36,36 @@ namespace StateMachines.Scripts
 
         public virtual void UP()
         {
-            CurrentPos.Y -= 1;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) || 
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y))
+             {
+                CurrentPos.Y -= 1;
+            }
         }
 
         public virtual void DOWN()
         {
-            CurrentPos.Y += 1;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1) || 
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            {
+                CurrentPos.Y += 1;
+            }
         }
 
         public virtual void LEFT()
         {
-            CurrentPos.X -= 1;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
+                !currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1))
+            {
+                CurrentPos.X -= 1;
+            }
         }
 
         public virtual void RIGHT()
         {
-            CurrentPos.X += 1;
+            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y) ||
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+                CurrentPos.X += 1;
         }
 
         public void ResetPos() 

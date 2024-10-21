@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using SharpDX.Direct3D9;
 
 
 namespace StateMachines.Scripts
@@ -12,7 +13,7 @@ namespace StateMachines.Scripts
         private int InitialLives;
         private int Score;
 
-        public Player(Vector2 pos, int lives) : base(pos)
+        public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel) : base(pos, rect, cLevel)
         {
             CurrentLives = lives;
             InitialLives = CurrentLives;
@@ -39,22 +40,38 @@ namespace StateMachines.Scripts
 
         public override void UP()
         {
-            CurrentPos.Y -= 2;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y))
+            {
+                CurrentPos.Y -= 2;
+            }
         }
 
         public override void DOWN()
         {
-            CurrentPos.Y += 2;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1) ||
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            {
+                CurrentPos.Y += 2;
+            }
         }
 
         public override void LEFT()
         {
-            CurrentPos.X -= 2;
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
+                !currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1))
+            {
+                CurrentPos.X -= 2;
+            }
         }
 
         public override void RIGHT()
         {
-            CurrentPos.X += 2;
+            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y) ||
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            {
+                CurrentPos.X += 2;
+            }
         }
 
     }

@@ -6,7 +6,7 @@ namespace StateMachines.Scripts
 {
     internal class Enemy : Creature
     {
-        public Enemy(Vector2 pos) : base(pos) 
+        public Enemy(Vector2 pos, Rectangle rect, Level cLevel) : base(pos, rect, cLevel) 
         {
               
         }

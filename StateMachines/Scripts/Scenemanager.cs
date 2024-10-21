@@ -13,7 +13,7 @@ namespace StateMachines.Scripts
         private PlayGame play;
         private GameOver gameOver;
         private SpriteFont font;
-        private string text;
+        private string text; 
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics) 
         {
