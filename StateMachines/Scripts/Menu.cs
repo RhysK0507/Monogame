@@ -20,11 +20,13 @@ namespace StateMachines.Scripts
         {
             if (Mouse.GetState().LeftButton == ButtonState.Pressed && Mouse.GetState().X >= 0 && Mouse.GetState().X <= ScreenWH.X - 1 && Mouse.GetState().Y >= 0 && Mouse.GetState().Y <= ScreenWH.Y - 1)
             {
+                // If left mouse button pressed play game.
                 return E_Gamestates.PLAY;
 
             } else if (Mouse.GetState().RightButton == ButtonState.Pressed && Mouse.GetState().X >= 0 && Mouse.GetState().X <= ScreenWH.X - 1 && Mouse.GetState().Y >= 0 && Mouse.GetState().Y <= ScreenWH.Y - 1)
 
             {
+                // If right mouse button pressed end and close the game.
                 game.Exit();
             }
 

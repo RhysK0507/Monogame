@@ -13,8 +13,6 @@ namespace StateMachines.Scripts
 
         public E_Gamestates Update(double deltaTime)
         {
-            
-
             totalTime += deltaTime;
 
             if (totalTime >= timeLimit)
