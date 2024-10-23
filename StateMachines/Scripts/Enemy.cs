@@ -34,14 +34,14 @@ namespace StateMachines.Scripts
             }
         }
 
-        public bool Caught(Player player)
-        {
-            if (player.GetPos() == this.GetPos())
-            {
-                return true;
-            }
+        //public bool Caught(Player player)
+        //{
+        //    if (player.GetPos() == this.GetPos())
+        //    {
+        //        return true;
+        //    }
 
-            return false;
-        }
+        //    return false;
+        //}
     } 
 }

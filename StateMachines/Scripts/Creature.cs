@@ -14,6 +14,8 @@ namespace StateMachines.Scripts
         protected Texture2D Sprite;
         public Level currentLevel;
         public Rectangle frame;
+        protected int spriteW;
+        protected int spriteH;
 
         public void LoadContent(ContentManager cm, string name)
         {
@@ -77,6 +79,21 @@ namespace StateMachines.Scripts
         public Vector2 GetPos()
         {
             return CurrentPos;
+        }
+
+        public bool CollidesWith(Creature creature)
+        {
+            if (CurrentPos.X <= creature.CurrentPos.X + spriteW - 1
+                && CurrentPos.X + spriteW - 1 >= creature.CurrentPos.X 
+                && CurrentPos.Y <= creature.CurrentPos.Y + spriteH - 1 
+                && CurrentPos.Y + spriteH - 1 >= creature.CurrentPos.Y)
+            {
+                return true;
+            }
+             else
+            {
+                return false;
+            }
         }
 
     }

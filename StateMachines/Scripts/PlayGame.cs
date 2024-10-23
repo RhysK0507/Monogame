@@ -62,7 +62,7 @@ namespace StateMachines.Scripts
 
             enemy.Chase(player);
 
-            if (enemy.Caught(player))
+            if (enemy.CollidesWith(player))
             {
                 player.ReduceLives();
                 System.Console.WriteLine("Player lives" + player.GetLives());
