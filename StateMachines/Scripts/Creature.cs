@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.Runtime.Loader;
 using Microsoft.VisualBasic.ApplicationServices;
+using System.Reflection.Metadata.Ecma335;
 
 namespace StateMachines.Scripts
 {
@@ -14,8 +15,6 @@ namespace StateMachines.Scripts
         protected Texture2D Sprite;
         public Level currentLevel;
         public Rectangle frame;
-        protected int spriteW;
-        protected int spriteH;
 
         public void LoadContent(ContentManager cm, string name)
         {
@@ -33,7 +32,6 @@ namespace StateMachines.Scripts
             currentLevel = cLevel;
             StartPos = Pos;
             CurrentPos = StartPos;
-
         }
 
         public virtual void UP()
@@ -81,12 +79,22 @@ namespace StateMachines.Scripts
             return CurrentPos;
         }
 
+        private int GetSpriteWidth()
+        {
+            return frame.Width;
+        }
+
+        private int GetSpriteHeight()
+        {
+            return frame.Height;
+        }
+
         public bool CollidesWith(Creature creature)
         {
-            if (CurrentPos.X <= creature.CurrentPos.X + spriteW - 1
-                && CurrentPos.X + spriteW - 1 >= creature.CurrentPos.X 
-                && CurrentPos.Y <= creature.CurrentPos.Y + spriteH - 1 
-                && CurrentPos.Y + spriteH - 1 >= creature.CurrentPos.Y)
+            if (CurrentPos.X <= creature.CurrentPos.X + GetSpriteWidth() - 1
+                && CurrentPos.X + GetSpriteWidth() - 1 >= creature.CurrentPos.X 
+                && CurrentPos.Y <= creature.CurrentPos.Y + GetSpriteHeight() - 1 
+                && CurrentPos.Y + GetSpriteHeight() - 1 >= creature.CurrentPos.Y)
             {
                 return true;
             }
