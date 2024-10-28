@@ -105,5 +105,22 @@ namespace StateMachines.Scripts
             }
         }
 
+        public bool ItemCollidesWith(Texture2D item)
+        {
+            if (CurrentPos.X <=  item.Bounds.X + GetSpriteWidth() - 1
+                && CurrentPos.X + GetSpriteWidth() - 1 >= item.Bounds.X
+                && CurrentPos.Y <= item.Bounds.Y + GetSpriteHeight() - 1
+                && CurrentPos.Y + GetSpriteHeight() - 1 >= item.Bounds.Y)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
     }
 }

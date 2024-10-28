@@ -61,7 +61,7 @@ namespace StateMachines.Scripts
             }
 
 
-            enemy.Chase(player);
+            //enemy.Chase(player);
 
             if (enemy.CollidesWith(player))
             {
@@ -70,6 +70,8 @@ namespace StateMachines.Scripts
                 player.ResetPos();
                 enemy.ResetPos();
             }
+
+            
 
             if (player.GetLives() == 0)
             {

@@ -50,6 +50,11 @@ namespace StateMachines.Scripts
             {
                 CurrentPos.Y -= 2;
             }
+            //if (!currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y) ||
+            //    !currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y))
+            //{
+            //    Score += 10;
+            //}
         }
 
         public override void DOWN()
@@ -59,6 +64,11 @@ namespace StateMachines.Scripts
             {
                 CurrentPos.Y += 2;
             }
+            //if (!currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1) ||
+            //    !currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            //{
+            //    Score += 10;
+            //}
         }
 
         public override void LEFT()
@@ -68,6 +78,11 @@ namespace StateMachines.Scripts
             {
                 CurrentPos.X -= 2;
             }
+            //if (!currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y) ||
+            //    !currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1))
+            //{
+            //    Score += 10;
+            //}
         }
 
         public override void RIGHT()
@@ -77,6 +92,11 @@ namespace StateMachines.Scripts
             {
                 CurrentPos.X += 2;
             }
+            //if (!currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y) ||
+            //    !currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            //{
+            //    Score += 10;
+            //}
         }
 
     }

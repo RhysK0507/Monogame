@@ -18,6 +18,7 @@ namespace StateMachines.Scripts
         private Vector2 wh;
         private string[] levelfile;
         private int currentLevel;
+        private bool[,] Items = new bool[8,13];
         
         public Level()
         {
@@ -60,6 +61,16 @@ namespace StateMachines.Scripts
         public void BuildNewLevel()
         {
             levelfile = File.ReadAllLines(@"..\Levels\Level " + currentLevel + ".txt");
+            for (int col = 0; col < GetArrayWidth(); col++)
+            {
+                for (int row = 0; row < GetArrayHeight(); row++)
+                {
+                    if (levelfile[row][col] == 'P')
+                    {
+                        Items[row,col] = true;
+                    }
+                }
+            }
             foreach (var line in levelfile)
             {
                 Console.WriteLine(line);
@@ -83,22 +94,29 @@ namespace StateMachines.Scripts
                     }
                 }
             }
+
             for (int col = 0; col < GetArrayWidth(); col++)
             {
                 for (int row = 0; row < GetArrayHeight(); row++)
-                {
-                    if (levelfile[row][col] == 'P')
-                    {
+                {                    
+                     if (Items[row,col] == true)
+                     {
                         sprite.Draw(pellet, new Vector2(wall.Width * col, wall.Height * row), Color.White);
-                    }
+                     }                    
                 }
             }
         }
 
         // Draws pellet for pick up
-        public void pickUp(SpriteBatch sprite)
+        public bool IsPickUp(int Xpos, int Ypox)
         {
-
+            if (Items[(int)(Ypox / wall.Height),(int)(Xpos / wall.Width)] == true)
+            {
+               Items[(int)(Ypox / wall.Height),(int)(Xpos / wall.Width)] = false;
+                return true;
+            }
+            else
+                return false;
         }
 
         public bool IsWall(int Xpos, int Ypox)
