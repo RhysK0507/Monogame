@@ -14,6 +14,7 @@ namespace StateMachines.Scripts
     internal class Level
     {
         private Texture2D wall;
+        private Texture2D pellet;
         private Vector2 wh;
         private string[] levelfile;
         private int currentLevel;
@@ -24,9 +25,10 @@ namespace StateMachines.Scripts
             BuildNewLevel();
         }
 
-        public void LoadContent(ContentManager cm, string name)
+        public void LoadContent(ContentManager cm_wall, string wallname, ContentManager cm_pellet, string pelletname)
         {
-            wall = cm.Load<Texture2D>(name);
+            wall = cm_wall.Load<Texture2D>(wallname);
+            pellet = cm_pellet.Load<Texture2D>(pelletname);
             wh = new Vector2(wall.Width, wall.Height);
         }
 
@@ -81,6 +83,22 @@ namespace StateMachines.Scripts
                     }
                 }
             }
+            for (int col = 0; col < GetArrayWidth(); col++)
+            {
+                for (int row = 0; row < GetArrayHeight(); row++)
+                {
+                    if (levelfile[row][col] == 'P')
+                    {
+                        sprite.Draw(pellet, new Vector2(wall.Width * col, wall.Height * row), Color.White);
+                    }
+                }
+            }
+        }
+
+        // Draws pellet for pick up
+        public void pickUp(SpriteBatch sprite)
+        {
+
         }
 
         public bool IsWall(int Xpos, int Ypox)

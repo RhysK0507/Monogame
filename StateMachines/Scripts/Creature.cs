@@ -52,6 +52,7 @@ namespace StateMachines.Scripts
             }
         }
 
+
         public virtual void LEFT()
         {
             if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||

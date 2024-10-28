@@ -26,7 +26,8 @@ namespace StateMachines.Scripts
         {
             player.LoadContent(cm, "Chara6");
             enemy.LoadContent(cm, "Orc2");
-            level.LoadContent(cm, "Wall1");
+            level.LoadContent(cm, "Wall1", cm, "Pellet");
+            //level.pickUp();
             graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
             graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
             graphics.ApplyChanges();
@@ -102,6 +103,11 @@ namespace StateMachines.Scripts
         public int GetLevelNumber()
         {
             return level.returnLevel();
+        }
+
+        public int GetScore()
+        {
+            return player.GetScore();
         }
 
         public int GetLives()

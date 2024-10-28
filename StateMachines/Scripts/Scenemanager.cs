@@ -67,8 +67,10 @@ namespace StateMachines.Scripts
                     break;
                 case E_Gamestates.PLAY:
                     play.Draw(graphics, sprite);
-                    SetMessage("This is the Game Pay screen. Level: " + play.GetLevelNumber());
+                    SetMessage("Level: " + play.GetLevelNumber());
                     sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 500, 0), Color.Blue);
+                    SetMessage("Score:" + play.GetScore());
+                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 0, 0), Color.Green);
                     SetMessage("Lives: " + play.GetLives());
                     sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 800, 0), Color.Red);
                     break;

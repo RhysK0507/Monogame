@@ -30,6 +30,11 @@ namespace StateMachines.Scripts
             CurrentLives--;
         }
 
+        public int GetScore()
+        {
+            return Score;
+        }
+
         public void ResetLives()
         {
             if (CurrentLives == 0)
