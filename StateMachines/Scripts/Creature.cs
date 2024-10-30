@@ -36,17 +36,17 @@ namespace StateMachines.Scripts
 
         public virtual void UP()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) || 
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y))
-             {
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - 1) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1))
+            {
                 CurrentPos.Y -= 1;
             }
         }
 
         public virtual void DOWN()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1) || 
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
             {
                 CurrentPos.Y += 1;
             }
@@ -55,8 +55,8 @@ namespace StateMachines.Scripts
 
         public virtual void LEFT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
-                !currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y) &&
+                !currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
             {
                 CurrentPos.X -= 1;
             }
@@ -64,8 +64,8 @@ namespace StateMachines.Scripts
 
         public virtual void RIGHT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y) ||
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - 1) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
                 CurrentPos.X += 1;
         }
 

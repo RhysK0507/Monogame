@@ -45,8 +45,8 @@ namespace StateMachines.Scripts
 
         public override void UP()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y))
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - 1) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1))
             {
                 CurrentPos.Y -= 2;
             }
@@ -59,8 +59,8 @@ namespace StateMachines.Scripts
 
         public override void DOWN()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1) ||
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
             {
                 CurrentPos.Y += 2;
             }
@@ -73,8 +73,8 @@ namespace StateMachines.Scripts
 
         public override void LEFT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y) ||
-                !currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y) &&
+                !currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
             {
                 CurrentPos.X -= 2;
             }
@@ -87,8 +87,8 @@ namespace StateMachines.Scripts
 
         public override void RIGHT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y) ||
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width , (int)CurrentPos.Y + frame.Height - 1) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
             {
                 CurrentPos.X += 2;
             }
