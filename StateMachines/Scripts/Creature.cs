@@ -34,6 +34,7 @@ namespace StateMachines.Scripts
             CurrentPos = StartPos;
         }
 
+        // Collision detection
         public virtual void UP()
         {
             if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - 1) &&

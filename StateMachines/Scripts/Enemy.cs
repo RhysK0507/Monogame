@@ -11,6 +11,7 @@ namespace StateMachines.Scripts
               
         }
 
+        // Moves towards the player
         public void Chase(Player player)
         {
             if (player.GetPos().X > CurrentPos.X)

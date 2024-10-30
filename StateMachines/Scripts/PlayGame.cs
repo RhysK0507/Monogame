@@ -17,6 +17,7 @@ namespace StateMachines.Scripts
 
         public PlayGame()
         {
+            // Spawns the level, player and enemy.
             level = new Level();
             player = new Player(new Vector2(200, 200), 3, new Rectangle(0, 0, 52, 72), level);
             enemy = new Enemy(new Vector2(900, 600), new Rectangle(0, 0, 52, 72), level);           
@@ -27,7 +28,7 @@ namespace StateMachines.Scripts
             player.LoadContent(cm, "Chara6");
             enemy.LoadContent(cm, "Orc2");
             level.LoadContent(cm, "Wall1", cm, "Pellet");
-            //level.pickUp();
+            // Gets the level width and height
             graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
             graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
             graphics.ApplyChanges();
