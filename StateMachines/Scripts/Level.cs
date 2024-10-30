@@ -112,7 +112,6 @@ namespace StateMachines.Scripts
         {
             if (Items[(int)(Ypox / wall.Height),(int)(Xpos / wall.Width)] == true)
             {
-               Items[(int)(Ypox / wall.Height),(int)(Xpos / wall.Width)] = false;
                 return true;
             }
             else
@@ -128,7 +127,12 @@ namespace StateMachines.Scripts
                 else
                     return false;                            
         }
+        public void RemoveItem(int Xpos, int Ypox)
+        {
+            Items[(int)(Ypox / wall.Height), (int)(Xpos / wall.Width)] = false;
+
+        }
     }
 
- 
+   
 }
