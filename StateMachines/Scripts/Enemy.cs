@@ -6,7 +6,7 @@ namespace StateMachines.Scripts
 {
     internal class Enemy : Creature
     {
-        public Enemy(Vector2 pos, Rectangle rect, Level cLevel) : base(pos, rect, cLevel) 
+        public Enemy(Vector2 pos, Rectangle rect, Level cLevel, int InputSpeed) : base(pos, rect, cLevel, InputSpeed) 
         {
               
         }
@@ -26,12 +26,12 @@ namespace StateMachines.Scripts
 
             if (player.GetPos().Y < CurrentPos.Y)
             {
-                UP();
+                UP(Speed);
             }
 
             if (player.GetPos().Y > CurrentPos.Y)
             {
-                DOWN();
+                DOWN(Speed);
             }
         }
 

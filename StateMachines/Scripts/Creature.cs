@@ -43,17 +43,13 @@ namespace StateMachines.Scripts
             Speed = InputSpeed;
         }
 
-        public void SetisJumping()
-        {
-
-        }
 
         public void JumpOrFall()
         {
             if (isJumping == true)
             {
                 UP(Speed * 2);
-                currentHeight += currentHeight + Speed;
+                currentHeight += Speed*2;
 
                 if (currentHeight >= maxHeight)
                 {
@@ -82,11 +78,18 @@ namespace StateMachines.Scripts
 
         public virtual void DOWN(int speedVal)
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - speedVal, (int)CurrentPos.Y + frame.Height))
+            bool OnFloor = currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height - 1) + speedVal) ||
+                           currentLevel.IsWall((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            bool OnPlatform = currentLevel.IsPlatform((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height - 1) + speedVal) ||
+                              currentLevel.IsPlatform((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            bool SameRow = currentLevel.IsInSameRow((int)CurrentPos.Y + (frame.Height - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            if (!OnFloor && !(OnPlatform && !SameRow))
             {
                 CurrentPos.Y += speedVal;
-            } 
+            }
         }
 
 
@@ -157,7 +160,23 @@ namespace StateMachines.Scripts
             }
         }
 
+        public void SetisJumping()
+        {
+            bool OnFloor = currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height)) ||
+                           currentLevel.IsWall((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height));
 
+            bool OnPlatform = currentLevel.IsPlatform((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height)) ||
+                              currentLevel.IsPlatform((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height));
+
+            bool SameRow = currentLevel.IsInSameRow((int)CurrentPos.Y + (frame.Height - 1), (int)CurrentPos.Y + (frame.Height - 1) + 1);
+
+            if (OnFloor || (OnPlatform && !SameRow))
+            {
+                isJumping = true;
+                currentHeight = 0;
+            }
+
+        }
 
     }
 }

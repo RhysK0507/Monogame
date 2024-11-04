@@ -14,20 +14,21 @@ namespace StateMachines.Scripts
         private Player player;
         private Enemy enemy;
         private Level level;
+        private bool JumpIsPressed = false;
 
         public PlayGame()
         {
             // Spawns the level, player and enemy.
             level = new Level();
-            player = new Player(new Vector2(200, 200), 3, new Rectangle(0, 0, 52, 72), level);
-            enemy = new Enemy(new Vector2(900, 600), new Rectangle(0, 0, 52, 72), level);           
+            player = new Player(new Vector2(200, 200), 3, new Rectangle(0, 0, 52, 72), level, 2);
+            enemy = new Enemy(new Vector2(900, 600), new Rectangle(0, 0, 52, 72), level, 1);           
         }
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics)
         {
             player.LoadContent(cm, "Chara6");
             enemy.LoadContent(cm, "Orc2");
-            level.LoadContent(cm, "Wall1", cm, "Pellet");
+            level.LoadContent(cm, "Wall1", "Pellet", "hplat1");
             // Gets the level width and height
             graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
             graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
@@ -36,14 +37,26 @@ namespace StateMachines.Scripts
 
         public E_Gamestates Update()
         {
+           
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
+                
                 return E_Gamestates.MENU;
             }
+            player.JumpOrFall();
 
             if (Keyboard.GetState().IsKeyDown(Keys.W)) 
             {
-                player.UP();
+                if (JumpIsPressed == false)
+                {
+                    JumpIsPressed = true;
+                    player.SetisJumping();
+                }
+               
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.W))
+            {
+                JumpIsPressed = false;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
@@ -56,10 +69,10 @@ namespace StateMachines.Scripts
                 player.RIGHT();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.S))
-            {
-                player.DOWN();
-            }
+            //if (Keyboard.GetState().IsKeyDown(Keys.S))
+            //{
+            //    player.DOWN();
+            //}
 
 
             enemy.Chase(player);

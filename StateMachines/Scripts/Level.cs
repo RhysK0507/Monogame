@@ -27,11 +27,11 @@ namespace StateMachines.Scripts
             BuildNewLevel();
         }
 
-        public void LoadContent(ContentManager cm_wall, string wallname, ContentManager cm_pellet, string pelletname, ContentManager cm_hplat1, string platname)
+        public void LoadContent(ContentManager cm, string wallname,  string pelletname,  string platname)
         {
-            wall = cm_wall.Load<Texture2D>(wallname);
-            pellet = cm_pellet.Load<Texture2D>(pelletname);
-            hplat1 = cm_hplat1.Load<Texture2D>(platname);
+            wall = cm.Load<Texture2D>(wallname);
+            pellet = cm.Load<Texture2D>(pelletname);
+            hplat1 = cm.Load<Texture2D>(platname);
             wh = new Vector2(wall.Width, wall.Height);
         }
 
@@ -119,7 +119,7 @@ namespace StateMachines.Scripts
                 {
                     if (levelfile[row][col] == 'J')
                     {
-                        sprite.Draw(hplat1, new Vector2(hplat1.Width * col, hplat1.Height * row), Color.White);
+                        sprite.Draw(hplat1, new Vectsor2(hplat1.Width * col, hplat1.Height * row), Color.White);
                     }
                 }
             }

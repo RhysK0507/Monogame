@@ -13,7 +13,7 @@ namespace StateMachines.Scripts
         private int InitialLives;
         private int Score;
 
-        public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel) : base(pos, rect, cLevel)
+        public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed) : base(pos, rect, cLevel, InputSpeed)
         {
             CurrentLives = lives;
             InitialLives = CurrentLives;
@@ -43,12 +43,16 @@ namespace StateMachines.Scripts
             }
         }
 
-        public override void UP()
+        public override void UP(int speedVal)
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - 1) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - speedVal) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - speedVal, (int)CurrentPos.Y - speedVal))
             {
-                CurrentPos.Y -= 2;
+                CurrentPos.Y -= speedVal;
+            }
+            else if (isJumping)
+            {
+                isJumping = false;
             }
 
             if (currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y - 1))
@@ -63,12 +67,19 @@ namespace StateMachines.Scripts
             }
         }
 
-        public override void DOWN()
+        public override void DOWN(int speedVal)
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
+            bool OnFloor = currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height - 1) + speedVal) ||
+                           currentLevel.IsWall((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            bool OnPlatform = currentLevel.IsPlatform((int)CurrentPos.X, (int)CurrentPos.Y + (frame.Height - 1) + speedVal) ||
+                              currentLevel.IsPlatform((int)CurrentPos.X + (frame.Width - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            bool SameRow = currentLevel.IsInSameRow((int)CurrentPos.Y + (frame.Height - 1), (int)CurrentPos.Y + (frame.Height - 1) + speedVal);
+
+            if (!OnFloor && !(OnPlatform && !SameRow))
             {
-                CurrentPos.Y += 2;
+                CurrentPos.Y += speedVal;
             }
 
             if (currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height)) 
