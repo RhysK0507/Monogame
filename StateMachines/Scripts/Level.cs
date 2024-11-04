@@ -15,6 +15,7 @@ namespace StateMachines.Scripts
     {
         private Texture2D wall;
         private Texture2D pellet;
+        private Texture2D hplat1;
         private Vector2 wh;
         private string[] levelfile;
         private int currentLevel;
@@ -26,10 +27,11 @@ namespace StateMachines.Scripts
             BuildNewLevel();
         }
 
-        public void LoadContent(ContentManager cm_wall, string wallname, ContentManager cm_pellet, string pelletname)
+        public void LoadContent(ContentManager cm_wall, string wallname, ContentManager cm_pellet, string pelletname, ContentManager cm_hplat1, string platname)
         {
             wall = cm_wall.Load<Texture2D>(wallname);
             pellet = cm_pellet.Load<Texture2D>(pelletname);
+            hplat1 = cm_hplat1.Load<Texture2D>(platname);
             wh = new Vector2(wall.Width, wall.Height);
         }
 
@@ -83,6 +85,20 @@ namespace StateMachines.Scripts
             currentLevel = 1;
         }
 
+        public bool IsInSameRow(int y1, int y2)
+        {
+            int first = y1 / wall.Height;
+            int second = y2 / wall.Height;
+
+            if (first == second)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         public void Draw(SpriteBatch sprite)
         {
             // Checks level width and height and draws a wall if a W is present.
@@ -93,6 +109,17 @@ namespace StateMachines.Scripts
                     if (levelfile[row][col] == 'W')
                     {
                         sprite.Draw(wall, new Vector2(wall.Width * col, wall.Height * row), Color.White);
+                    }
+                }
+            }
+
+            for (int col = 0; col < GetArrayWidth(); col++)
+            {
+                for (int row = 0; row < GetArrayHeight(); row++)
+                {
+                    if (levelfile[row][col] == 'J')
+                    {
+                        sprite.Draw(hplat1, new Vector2(hplat1.Width * col, hplat1.Height * row), Color.White);
                     }
                 }
             }
@@ -128,6 +155,16 @@ namespace StateMachines.Scripts
                 }
                 else
                     return false;                            
+        }
+
+        public bool IsPlatform(int Xpos, int Ypox)
+        {
+            if (levelfile[(int)(Ypox / hplat1.Height)][(int)(Xpos / hplat1.Width)] == 'J')
+            {
+                return true;
+            }
+            else
+                return false;
         }
         public void RemoveItem(int Xpos, int Ypox)
         {

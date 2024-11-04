@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Content;
 using System.Runtime.Loader;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Reflection.Metadata.Ecma335;
+using System.Transactions;
 
 namespace StateMachines.Scripts
 {
@@ -15,6 +16,10 @@ namespace StateMachines.Scripts
         protected Texture2D Sprite;
         public Level currentLevel;
         public Rectangle frame;
+        protected bool isJumping;
+        protected int maxHeight;
+        protected int currentHeight;
+        protected int Speed;
 
         public void LoadContent(ContentManager cm, string name)
         {
@@ -26,48 +31,79 @@ namespace StateMachines.Scripts
             spritebatch.Draw(Sprite, CurrentPos, rect, Color.White);
         }
 
-        public Creature(Vector2 Pos, Rectangle rect, Level cLevel) 
+        public Creature(Vector2 Pos, Rectangle rect, Level cLevel, int InputSpeed) 
         {
             frame = rect;
             currentLevel = cLevel;
             StartPos = Pos;
             CurrentPos = StartPos;
+            isJumping = false;
+            currentHeight = 0;
+            maxHeight = 170;
+            Speed = InputSpeed;
+        }
+
+        public void SetisJumping()
+        {
+
+        }
+
+        public void JumpOrFall()
+        {
+            if (isJumping == true)
+            {
+                UP(Speed * 2);
+                currentHeight += currentHeight + Speed;
+
+                if (currentHeight >= maxHeight)
+                {
+                    isJumping = false;
+                }
+            } else
+            {
+                DOWN(Speed * 2);
+            }
+
         }
 
         // Collision detection
-        public virtual void UP()
+        public virtual void UP(int speedVal)
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - 1) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y - speedVal) &&
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - speedVal, (int)CurrentPos.Y - speedVal))
             {
-                CurrentPos.Y -= 1;
+                CurrentPos.Y -= speedVal;
+            }
+            else if (isJumping)
+            {
+                isJumping = false;
             }
         }
 
-        public virtual void DOWN()
+        public virtual void DOWN(int speedVal)
         {
             if (!currentLevel.IsWall((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width - speedVal, (int)CurrentPos.Y + frame.Height))
             {
-                CurrentPos.Y += 1;
-            }
+                CurrentPos.Y += speedVal;
+            } 
         }
 
 
         public virtual void LEFT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y) &&
-                !currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
+            if (!currentLevel.IsWall((int)CurrentPos.X - Speed, (int)CurrentPos.Y) &&
+                !currentLevel.IsWall((int)CurrentPos.X - Speed, (int)CurrentPos.Y + frame.Height - 1))
             {
-                CurrentPos.X -= 1;
+                CurrentPos.X -= Speed;
             }
         }
 
         public virtual void RIGHT()
         {
-            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - 1) &&
+            if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - Speed) &&
                 !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
-                CurrentPos.X += 1;
+                CurrentPos.X += Speed;
         }
 
         public void ResetPos() 
