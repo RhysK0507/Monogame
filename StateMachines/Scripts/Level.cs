@@ -119,7 +119,7 @@ namespace StateMachines.Scripts
                 {
                     if (levelfile[row][col] == 'J')
                     {
-                        sprite.Draw(hplat1, new Vectsor2(hplat1.Width * col, hplat1.Height * row), Color.White);
+                        sprite.Draw(hplat1, new Vector2(hplat1.Width * col, hplat1.Height * row), Color.White);
                     }
                 }
             }
