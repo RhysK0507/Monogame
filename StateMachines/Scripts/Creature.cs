@@ -6,11 +6,14 @@ using System.Runtime.Loader;
 using Microsoft.VisualBasic.ApplicationServices;
 using System.Reflection.Metadata.Ecma335;
 using System.Transactions;
+using System.Drawing.Printing;
 
 namespace StateMachines.Scripts
 {
+    enum E_Gameanimations { LEFT, RIGHT, UP, DOWN, IDLE }
     internal class Creature
     {
+        public E_Gameanimations E_anim;
         protected Vector2 StartPos;
         protected Vector2 CurrentPos;
         protected Texture2D Sprite;
@@ -20,15 +23,37 @@ namespace StateMachines.Scripts
         protected int maxHeight;
         protected int currentHeight;
         protected int Speed;
+        private int frameIndex;
+        private double currentFrameTime;
+        private double frameTimeLimit; 
 
         public void LoadContent(ContentManager cm, string name)
         {
             Sprite = cm.Load<Texture2D>(name);
         }
         
-        public void Draw(SpriteBatch spritebatch, Rectangle rect) 
+        public void Draw(SpriteBatch spritebatch) 
         {
-            spritebatch.Draw(Sprite, CurrentPos, rect, Color.White);
+            switch(E_anim)
+            {
+                case E_Gameanimations.LEFT:
+                    spritebatch.Draw(Sprite, CurrentPos, new Rectangle(frame.X + frameIndex * frame.Width, frame.Y + frame.Height, frame.Width, frame.Height), Color.White);
+                    break;
+                case E_Gameanimations.RIGHT:
+                    spritebatch.Draw(Sprite, CurrentPos, new Rectangle(frame.X + frameIndex * frame.Width, frame.Y + frame.Height * 2, frame.Width, frame.Height), Color.White);
+                    break;
+                case E_Gameanimations.UP:
+                    spritebatch.Draw(Sprite, CurrentPos, new Rectangle(frame.X + frameIndex * frame.Width, frame.Y + frame.Height * 3, frame.Width, frame.Height), Color.White);
+                    break;
+                case E_Gameanimations.DOWN:
+                    spritebatch.Draw(Sprite, CurrentPos, new Rectangle(frame.X + frameIndex * frame.Width, frame.Y + frame.X, frame.Width, frame.Height), Color.White);
+                    break;
+                case E_Gameanimations.IDLE:
+                    spritebatch.Draw(Sprite, CurrentPos, frame, Color.White);
+                    break;
+                    default: break;
+            }
+
         }
 
         public Creature(Vector2 Pos, Rectangle rect, Level cLevel, int InputSpeed) 
@@ -41,8 +66,30 @@ namespace StateMachines.Scripts
             currentHeight = 0;
             maxHeight = 170;
             Speed = InputSpeed;
+            frameIndex = 0;
+            currentFrameTime = 0.0f;
+            frameTimeLimit = 0.05f;
+            E_anim = E_Gameanimations.IDLE;
         }
 
+        public void setAnimationState(E_Gameanimations state) 
+        {
+            E_anim = state;        
+        }
+
+        public void setCurrentFrame(double deltaTime)
+        {
+            frameTimeLimit += deltaTime;
+            if (currentFrameTime >= frameTimeLimit)
+            {
+                frameIndex++;
+                if (frameIndex == 3)
+                {
+                    frameIndex = 0;
+                }
+                frameTimeLimit = 0.0f;
+            }
+        }
 
         public void JumpOrFall()
         {

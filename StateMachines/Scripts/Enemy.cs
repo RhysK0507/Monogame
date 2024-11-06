@@ -16,21 +16,47 @@ namespace StateMachines.Scripts
         {
             if (player.GetPos().X > CurrentPos.X)
             {
+                E_anim = E_Gameanimations.RIGHT;
                 RIGHT();
             }
 
             if (player.GetPos().X < CurrentPos.X)
             {
+                E_anim = E_Gameanimations.LEFT;
                 LEFT();
             }
 
             if (player.GetPos().Y < CurrentPos.Y)
             {
+                if (player.GetPos().X < CurrentPos.X)
+                {
+                    E_anim = E_Gameanimations.LEFT;
+                }
+                else if (player.GetPos().X > CurrentPos.X)
+                {
+                    E_anim = E_Gameanimations.RIGHT;
+                }
+                else
+                {
+                    E_anim = E_Gameanimations.UP;
+                }
                 UP(Speed);
             }
 
             if (player.GetPos().Y > CurrentPos.Y)
             {
+                if (player.GetPos().X > CurrentPos.X)
+                {
+                    E_anim = E_Gameanimations.RIGHT;
+                }
+                else if (player.GetPos().X < CurrentPos.X)
+                {
+                    E_anim = E_Gameanimations.LEFT;
+                }
+                else
+                {
+                    E_anim = E_Gameanimations.DOWN;
+                }
                 DOWN(Speed);
             }
         }

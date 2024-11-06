@@ -102,7 +102,7 @@ namespace StateMachines.Scripts
         public void Draw(SpriteBatch sprite)
         {
             // Checks level width and height and draws a wall if a W is present.
-            for (int col = 0; col < GetArrayWidth(); col++) 
+            for (int col = 0; col < GetArrayWidth(); col++)
             {
                 for (int row = 0; row < GetArrayHeight(); row++)
                 {
