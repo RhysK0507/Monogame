@@ -45,7 +45,7 @@ namespace StateMachines.Scripts
                    
                     break;
                 case E_Gamestates.PLAY:
-                    SwitchState(play.Update()); 
+                    SwitchState(play.Update(deltaTime)); 
                     break;
                 case E_Gamestates.GAMEOVER:
                     SwitchState(gameOver.Update(deltaTime));

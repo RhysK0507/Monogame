@@ -30,7 +30,7 @@ namespace StateMachines.Scripts
             {
                 if (player.GetPos().X < CurrentPos.X)
                 {
-                    E_anim = E_Gameanimations.LEFT;
+                    E_anim = E_Gameanimations.LEFT ;
                 }
                 else if (player.GetPos().X > CurrentPos.X)
                 {

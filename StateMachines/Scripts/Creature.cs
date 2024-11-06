@@ -79,7 +79,7 @@ namespace StateMachines.Scripts
 
         public void setCurrentFrame(double deltaTime)
         {
-            frameTimeLimit += deltaTime;
+            currentFrameTime += deltaTime;
             if (currentFrameTime >= frameTimeLimit)
             {
                 frameIndex++;
@@ -87,7 +87,7 @@ namespace StateMachines.Scripts
                 {
                     frameIndex = 0;
                 }
-                frameTimeLimit = 0.0f;
+                currentFrameTime = 0.0f; 
             }
         }
 

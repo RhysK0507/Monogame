@@ -35,9 +35,8 @@ namespace StateMachines.Scripts
             graphics.ApplyChanges();
         }
 
-        public E_Gamestates Update()
-        {
-           
+        public E_Gamestates Update(double deltaTime)
+        {          
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 
@@ -47,6 +46,8 @@ namespace StateMachines.Scripts
 
             if (Keyboard.GetState().IsKeyDown(Keys.W)) 
             {
+               
+                
                 if (JumpIsPressed == false)
                 {
                     JumpIsPressed = true;
@@ -61,12 +62,21 @@ namespace StateMachines.Scripts
 
             if (Keyboard.GetState().IsKeyDown(Keys.A))
             {
+               
+                player.setAnimationState(E_Gameanimations.LEFT);
                 player.LEFT();
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.D))
             {
+               
+                player.setAnimationState(E_Gameanimations.RIGHT);
                 player.RIGHT();
+            }
+            player.setCurrentFrame(deltaTime);
+            if (Keyboard.GetState().IsKeyUp(Keys.D) && (Keyboard.GetState().IsKeyUp(Keys.A)))
+            {
+                player.setAnimationState(E_Gameanimations.IDLE);
             }
 
             //if (Keyboard.GetState().IsKeyDown(Keys.S))
@@ -76,6 +86,7 @@ namespace StateMachines.Scripts
 
 
             enemy.Chase(player);
+            enemy.setCurrentFrame(deltaTime);
 
             if (enemy.CollidesWith(player))
             {
