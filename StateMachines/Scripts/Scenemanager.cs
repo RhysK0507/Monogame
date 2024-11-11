@@ -16,12 +16,12 @@ namespace StateMachines.Scripts
         //private SpriteFont font;
         //private string text; 
 
-        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics) 
+        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice) 
         {
             //font = cm.Load<SpriteFont>("File");
             HUD.LoadContent(cm);
-            play.LoadContent(cm, graphics);
-            GameMenu = new Menu(play.GetScreenWH());
+            play.LoadContent(cm, graphics, GraphicsDevice);
+            GameMenu = new Menu(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
         }
 
         public Scenemanager()
@@ -32,7 +32,7 @@ namespace StateMachines.Scripts
             gameOver = new GameOver();
         }
 
-        public void Update(Game1 game, GameTime time)
+        public void Update(Game1 game, GameTime time, GraphicsDevice GraphicsDevice)
         {
             double deltaTime = time.ElapsedGameTime.TotalSeconds;
 
@@ -44,7 +44,7 @@ namespace StateMachines.Scripts
 
                     break;
                 case E_Gamestates.PLAY:
-                    SwitchState(play.Update(deltaTime)); 
+                    SwitchState(play.Update(deltaTime, GraphicsDevice)); 
                     break;
                 case E_Gamestates.GAMEOVER:
                     SwitchState(gameOver.Update(deltaTime));
@@ -56,36 +56,31 @@ namespace StateMachines.Scripts
         }
 
 
-        public void Draw(GraphicsDevice graphics, SpriteBatch sprite)
+        public void Draw(GraphicsDevice graphics, SpriteBatch sprite, GraphicsDeviceManager Device)
         {
-            sprite.Begin();
 
             switch (E_States)
             {
                 case E_Gamestates.MENU:
+                    sprite.Begin();
                     GameMenu.Draw(graphics);
                     HUD.SetMessage("This is the menu");
-                    HUD.DrawString(sprite, new Vector2(150, 0), Color.LightGreen);
+                    HUD.DrawString(sprite, new Vector2((Device.PreferredBackBufferWidth / 2) - 256, Device.PreferredBackBufferHeight / 2), Color.LightGreen);
+                    sprite.End();
                     break;
                 case E_Gamestates.PLAY:
-                    play.Draw(graphics, sprite);
-                    HUD.SetMessage("Level: " + play.GetLevelNumber());
-                    HUD.DrawString(sprite, new Vector2(400, 0), Color.Blue);
-                    HUD.SetMessage("Score:" + play.GetScore());
-                    HUD.DrawString(sprite, new Vector2(play.GetScreenWH().X - 250, 0), Color.Green);
-                    HUD.SetMessage("Lives: ");
-                    HUD.DrawString(sprite, new Vector2(20, 0), Color.Red);
-                    HUD.DrawLife(sprite, new Vector2(0, 10), play.GetLives());
+                    play.Draw(graphics, sprite, Device,HUD);                   
                     break;
                 case E_Gamestates.GAMEOVER:
+                    sprite.Begin();
                     HUD.SetMessage("Gameover, you lost");
-                    HUD.DrawString(sprite, new Vector2(400, 0), Color.Red);
+                    HUD.DrawString(sprite, new Vector2((Device.PreferredBackBufferWidth / 2) - 256, Device.PreferredBackBufferHeight / 2), Color.Red);
                     gameOver.Draw(graphics);
+                    sprite.End();
                     break;
                 default: break;
             }
 
-            sprite.End();
         }
 
         private void SwitchState(E_Gamestates state)

@@ -32,7 +32,7 @@ namespace StateMachines
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _scenemanager.LoadContent(Content, _graphics);
+            _scenemanager.LoadContent(Content, _graphics, GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
@@ -42,7 +42,7 @@ namespace StateMachines
             // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                // Exit();
 
-            _scenemanager.Update(this, gameTime);
+            _scenemanager.Update(this, gameTime, GraphicsDevice);
 
             // TODO: Add your update logic here
 
@@ -55,7 +55,7 @@ namespace StateMachines
 
             // TODO: Add your drawing code here
 
-            _scenemanager.Draw(GraphicsDevice, _spriteBatch);
+            _scenemanager.Draw(GraphicsDevice, _spriteBatch, _graphics);
 
             base.Draw(gameTime);
         }

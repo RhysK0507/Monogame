@@ -15,27 +15,40 @@ namespace StateMachines.Scripts
         private Enemy enemy;
         private Level level;
         private bool JumpIsPressed = false;
+        private RenderTarget2D renderTarget;
 
         public PlayGame()
         {
             // Spawns the level, player and enemy.
             level = new Level();
             player = new Player(new Vector2(200, 200), 3, new Rectangle(52 * 3, 0, 52, 72), level, 2);
-            enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1);           
+            enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1);  
         }
 
-        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics)
+        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice)
         {
             player.LoadContent(cm, "Chara6");
             enemy.LoadContent(cm, "Orc2");
             level.LoadContent(cm, "Wall1", "Pellet", "hplat1");
+            renderTarget = new RenderTarget2D(GraphicsDevice, (int)level.GetLevelSize().X, (int)level.GetLevelSize().Y);
+
             // Gets the level width and height
             graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
             graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
             graphics.ApplyChanges();
+
         }
 
-        public E_Gamestates Update(double deltaTime)
+        private void ResetAll(GraphicsDevice graphics)
+        {
+            enemy.ResetPos();
+            player.ResetPos();
+            player.ResetLives();
+            level.ResetLevel();
+            renderTarget = new RenderTarget2D(graphics, (int)level.GetLevelSize().X, (int)level.GetLevelSize().Y);
+        }
+
+        public E_Gamestates Update(double deltaTime, GraphicsDevice GraphicsDevice)
         {          
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -92,8 +105,6 @@ namespace StateMachines.Scripts
             {
                 player.ReduceLives();
                 System.Console.WriteLine("Player lives" + player.GetLives());
-                player.ResetPos();
-                enemy.ResetPos();
             }
 
             
@@ -101,8 +112,7 @@ namespace StateMachines.Scripts
             if (player.GetLives() == 0)
             {
                 System.Console.WriteLine("Player is dead");
-                player.ResetLives();
-                level.ResetLevel();
+                ResetAll(GraphicsDevice);
                 return E_Gamestates.GAMEOVER;
             }
 
@@ -111,8 +121,9 @@ namespace StateMachines.Scripts
 
         }
 
-        public void Draw(GraphicsDevice graphics, SpriteBatch sprite)
+        public void Draw(GraphicsDevice graphics, SpriteBatch sprite, GraphicsDeviceManager Device, HUD GameHud)
         {
+            sprite.Begin();
             graphics.Clear(Color.Red);
 
             level.Draw(sprite);
@@ -120,6 +131,15 @@ namespace StateMachines.Scripts
 
             player.Draw(sprite);
             enemy.Draw(sprite);
+
+            GameHud.SetMessage("Level: " + GetLevelNumber());
+            GameHud.DrawString(sprite, new Vector2(400, 0), Color.Blue);
+            GameHud.SetMessage("Score:" + GetScore());
+            GameHud.DrawString(sprite, new Vector2(GetScreenWH().X - 250, 0), Color.Green);
+            GameHud.SetMessage("Lives: ");
+            GameHud.DrawString(sprite, new Vector2(20, 0), Color.Red);
+            GameHud.DrawLife(sprite, new Vector2(0, 10), GetLives());
+            sprite.End();
         }
 
         public Vector2 GetScreenWH()
