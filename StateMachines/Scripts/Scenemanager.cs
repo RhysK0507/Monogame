@@ -12,23 +12,21 @@ namespace StateMachines.Scripts
         private Menu GameMenu;
         private PlayGame play;
         private GameOver gameOver;
-        private SpriteFont font;
-        private string text; 
+        private HUD HUD;
+        //private SpriteFont font;
+        //private string text; 
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics) 
         {
-            font = cm.Load<SpriteFont>("File");
+            //font = cm.Load<SpriteFont>("File");
+            HUD.LoadContent(cm);
             play.LoadContent(cm, graphics);
             GameMenu = new Menu(play.GetScreenWH());
         }
 
-        private void SetMessage(string str)
-        {
-            text = str;
-        }
-
         public Scenemanager()
         {
+            HUD = new HUD();
             E_States = E_Gamestates.MENU;
             play = new PlayGame();
             gameOver = new GameOver();
@@ -42,13 +40,15 @@ namespace StateMachines.Scripts
             {
                 case E_Gamestates.MENU:
                     SwitchState(GameMenu.Update(game));
-                   
+                    HUD.SetMessage("This is the menu");
+
                     break;
                 case E_Gamestates.PLAY:
                     SwitchState(play.Update(deltaTime)); 
                     break;
                 case E_Gamestates.GAMEOVER:
                     SwitchState(gameOver.Update(deltaTime));
+                    HUD.SetMessage("Gameover, you lost");
                     break;
                     default: break;
             }
@@ -64,19 +64,22 @@ namespace StateMachines.Scripts
             {
                 case E_Gamestates.MENU:
                     GameMenu.Draw(graphics);
+                    HUD.SetMessage("This is the menu");
+                    HUD.DrawString(sprite, new Vector2(150, 0), Color.LightGreen);
                     break;
                 case E_Gamestates.PLAY:
                     play.Draw(graphics, sprite);
-                    SetMessage("Level: " + play.GetLevelNumber());
-                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 500, 0), Color.Blue);
-                    SetMessage("Score:" + play.GetScore());
-                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 0, 0), Color.Green);
-                    SetMessage("Lives: " + play.GetLives());
-                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 800, 0), Color.Red);
+                    HUD.SetMessage("Level: " + play.GetLevelNumber());
+                    HUD.DrawString(sprite, new Vector2(400, 0), Color.Blue);
+                    HUD.SetMessage("Score:" + play.GetScore());
+                    HUD.DrawString(sprite, new Vector2(play.GetScreenWH().X - 250, 0), Color.Green);
+                    HUD.SetMessage("Lives: ");
+                    HUD.DrawString(sprite, new Vector2(20, 0), Color.Red);
+                    HUD.DrawLife(sprite, new Vector2(0, 10), play.GetLives());
                     break;
                 case E_Gamestates.GAMEOVER:
-                    SetMessage("This is the Game Over screen. You lost!");
-                    sprite.DrawString(font, text, new Vector2((play.GetScreenWH().X / 2) - 500, 0), Color.Red);
+                    HUD.SetMessage("Gameover, you lost");
+                    HUD.DrawString(sprite, new Vector2(400, 0), Color.Red);
                     gameOver.Draw(graphics);
                     break;
                 default: break;

@@ -17,9 +17,10 @@ namespace StateMachines.Scripts
         private string message;
         private Texture2D hud_heartFull;
 
-        public void LoadContent(ContentManager cm, string lifename)
+        public void LoadContent(ContentManager cm)
         {
-            hud_heartFull = cm.Load<Texture2D>(lifename);
+            hud_heartFull = cm.Load<Texture2D>("hud_heartFull");
+            font = cm.Load<SpriteFont>("File");
         }
 
         public void SetMessage(string str)
@@ -34,9 +35,13 @@ namespace StateMachines.Scripts
 
         public void DrawLife(SpriteBatch sprite, Vector2 position, int life)
         {
-            sprite.Draw(hud_heartFull,
-                new Vector2(position.X + font.MeasureString(message).X + life * hud_heartFull.Width, position.Y),
+            for (int lives = 0; lives < life; lives++)
+            {
+                sprite.Draw(hud_heartFull,
+                new Vector2(position.X + font.MeasureString(message).X + lives * hud_heartFull.Width, position.Y),
                 new Rectangle(0, 0, hud_heartFull.Width, hud_heartFull.Height), Color.White);
+            }
+            
         }
     }
 }
