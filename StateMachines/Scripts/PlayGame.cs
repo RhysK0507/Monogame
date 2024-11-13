@@ -48,6 +48,40 @@ namespace StateMachines.Scripts
             renderTarget = new RenderTarget2D(graphics, (int)level.GetLevelSize().X, (int)level.GetLevelSize().Y);
         }
 
+        private void DrawRenderTarget(SpriteBatch sb, GraphicsDevice graphics, GraphicsDeviceManager deviceManager)
+        {
+            graphics.SetRenderTarget(renderTarget);
+            graphics.Clear(Color.LightBlue);
+            sb.Begin();
+            level.Draw(sb);
+            player.Draw(sb);
+            enemy.Draw(sb);
+            sb.End();
+
+            graphics.SetRenderTarget(null);
+
+            int rectx = (int)player.GetPos().X - deviceManager.PreferredBackBufferWidth / 2;
+            if (rectx > (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth)
+            {
+                rectx = (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth;
+            } else if (rectx < 0)
+            {
+                rectx = 0;
+            }
+
+            int recty = (int)player.GetPos().Y - deviceManager.PreferredBackBufferHeight / 2;
+            if (recty > (int)GetLevelWH().Y - deviceManager.PreferredBackBufferHeight)
+            {
+                recty = (int)GetLevelWH().Y - deviceManager.PreferredBackBufferHeight;
+            }
+            else if (recty < 0)
+            {
+                recty = 0;
+            }
+
+            sb.Draw(renderTarget, new Vector2(0, 0), new Rectangle(rectx, recty, deviceManager.PreferredBackBufferWidth, deviceManager.PreferredBackBufferHeight), Color.White);
+        }
+
         public E_Gamestates Update(double deltaTime, GraphicsDevice GraphicsDevice)
         {          
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -123,26 +157,23 @@ namespace StateMachines.Scripts
 
         public void Draw(GraphicsDevice graphics, SpriteBatch sprite, GraphicsDeviceManager Device, HUD GameHud)
         {
-            sprite.Begin();
+
+            DrawRenderTarget(sprite, graphics, Device);
             graphics.Clear(Color.Red);
+            sprite.Begin();
 
-            level.Draw(sprite);
-
-
-            player.Draw(sprite);
-            enemy.Draw(sprite);
 
             GameHud.SetMessage("Level: " + GetLevelNumber());
             GameHud.DrawString(sprite, new Vector2(400, 0), Color.Blue);
             GameHud.SetMessage("Score:" + GetScore());
-            GameHud.DrawString(sprite, new Vector2(GetScreenWH().X - 250, 0), Color.Green);
+            GameHud.DrawString(sprite, new Vector2(Device.PreferredBackBufferWidth - 250, 0), Color.Green);
             GameHud.SetMessage("Lives: ");
             GameHud.DrawString(sprite, new Vector2(20, 0), Color.Red);
             GameHud.DrawLife(sprite, new Vector2(0, 10), GetLives());
             sprite.End();
         }
 
-        public Vector2 GetScreenWH()
+        public Vector2 GetLevelWH()
         {
             return level.GetLevelSize();
         }

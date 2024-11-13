@@ -13,6 +13,7 @@ namespace StateMachines.Scripts
         private PlayGame play;
         private GameOver gameOver;
         private HUD HUD;
+
         //private SpriteFont font;
         //private string text; 
 
@@ -39,7 +40,7 @@ namespace StateMachines.Scripts
             switch (E_States)
             {
                 case E_Gamestates.MENU:
-                    SwitchState(GameMenu.Update(game));
+                    SwitchState(GameMenu.Update(game));                 
                     HUD.SetMessage("This is the menu");
 
                     break;
