@@ -33,8 +33,8 @@ namespace StateMachines.Scripts
             renderTarget = new RenderTarget2D(GraphicsDevice, (int)level.GetLevelSize().X, (int)level.GetLevelSize().Y);
 
             // Gets the level width and height
-            graphics.PreferredBackBufferWidth = (int)level.GetLevelSize().X;
-            graphics.PreferredBackBufferHeight = (int)level.GetLevelSize().Y;
+            graphics.PreferredBackBufferWidth = 1920;
+            graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
 
         }
@@ -51,35 +51,15 @@ namespace StateMachines.Scripts
         private void DrawRenderTarget(SpriteBatch sb, GraphicsDevice graphics, GraphicsDeviceManager deviceManager)
         {
             graphics.SetRenderTarget(renderTarget);
-            graphics.Clear(Color.LightBlue);
+            graphics.Clear(Color.Red);
             sb.Begin();
             level.Draw(sb);
             player.Draw(sb);
-            enemy.Draw(sb);
+            enemy.Draw(sb); 
+
+            
             sb.End();
-
             graphics.SetRenderTarget(null);
-
-            int rectx = (int)player.GetPos().X - deviceManager.PreferredBackBufferWidth / 2;
-            if (rectx > (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth)
-            {
-                rectx = (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth;
-            } else if (rectx < 0)
-            {
-                rectx = 0;
-            }
-
-            int recty = (int)player.GetPos().Y - deviceManager.PreferredBackBufferHeight / 2;
-            if (recty > (int)GetLevelWH().Y - deviceManager.PreferredBackBufferHeight)
-            {
-                recty = (int)GetLevelWH().Y - deviceManager.PreferredBackBufferHeight;
-            }
-            else if (recty < 0)
-            {
-                recty = 0;
-            }
-
-            sb.Draw(renderTarget, new Vector2(0, 0), new Rectangle(rectx, recty, deviceManager.PreferredBackBufferWidth, deviceManager.PreferredBackBufferHeight), Color.White);
         }
 
         public E_Gamestates Update(double deltaTime, GraphicsDevice GraphicsDevice)
@@ -138,6 +118,8 @@ namespace StateMachines.Scripts
             if (enemy.CollidesWith(player))
             {
                 player.ReduceLives();
+                player.ResetPos();
+                enemy.ResetPos();
                 System.Console.WriteLine("Player lives" + player.GetLives());
             }
 
@@ -159,10 +141,30 @@ namespace StateMachines.Scripts
         {
 
             DrawRenderTarget(sprite, graphics, Device);
-            graphics.Clear(Color.Red);
+            
             sprite.Begin();
+            graphics.Clear(Color.LightBlue);
+            int rectx = (int)player.GetPos().X - Device.PreferredBackBufferWidth / 2;
+            if (rectx > (int)GetLevelWH().X - Device.PreferredBackBufferWidth)
+            {
+                rectx = (int)GetLevelWH().X - Device.PreferredBackBufferWidth;
+            }
+            else if (rectx < 0)
+            {
+                rectx = 0;
+            }
 
+            int recty = (int)player.GetPos().Y - Device.PreferredBackBufferHeight / 2;
+            if (recty > (int)GetLevelWH().Y - Device.PreferredBackBufferHeight)
+            {
+                recty = (int)GetLevelWH().Y - Device.PreferredBackBufferHeight;
+            }
+            else if (recty < 0)
+            {
+                recty = 0;
+            }
 
+            sprite.Draw(renderTarget, new Vector2(0, 0), new Rectangle(rectx, recty, Device.PreferredBackBufferWidth, Device.PreferredBackBufferHeight), Color.White);
             GameHud.SetMessage("Level: " + GetLevelNumber());
             GameHud.DrawString(sprite, new Vector2(400, 0), Color.Blue);
             GameHud.SetMessage("Score:" + GetScore());

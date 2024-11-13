@@ -19,7 +19,7 @@ namespace StateMachines.Scripts
         private Vector2 wh;
         private string[] levelfile;
         private int currentLevel;
-        private bool[,] Items = new bool[8,13];
+        private bool[,] Items = new bool[8,21];
         
         public Level()
         {
