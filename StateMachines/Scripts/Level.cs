@@ -19,7 +19,7 @@ namespace StateMachines.Scripts
         private Vector2 wh;
         private string[] levelfile;
         private int currentLevel;
-        private bool[,] Items = new bool[8,21];
+        private bool[,] Items = new bool[10,21];
         
         public Level()
         {
@@ -48,6 +48,11 @@ namespace StateMachines.Scripts
         public Vector2 GetLevelSize()
         {
             return new Vector2(GetArrayWidth() * wh.X, GetArrayHeight() * wh.Y);
+        }
+
+        public Vector2 GetWH()
+        {
+            return wh;
         }
 
         public void addLevel()
