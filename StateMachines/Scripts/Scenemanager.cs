@@ -33,7 +33,7 @@ namespace StateMachines.Scripts
             gameOver = new GameOver();
         }
 
-        public void Update(Game1 game, GameTime time, GraphicsDevice GraphicsDevice)
+        public void Update(Game1 game, GameTime time, GraphicsDevice GraphicsDevice, GraphicsDeviceManager deviceManager)
         {
             double deltaTime = time.ElapsedGameTime.TotalSeconds;
 

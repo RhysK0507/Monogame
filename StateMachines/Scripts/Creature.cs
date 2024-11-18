@@ -25,7 +25,18 @@ namespace StateMachines.Scripts
         protected int Speed;
         private int frameIndex;
         private double currentFrameTime;
-        private double frameTimeLimit; 
+        private double frameTimeLimit;
+        private bool CanScroll = false;
+
+        public int GetSpeed()
+        {
+            return Speed;
+        }
+
+        public bool GetScroll()
+        {
+            return CanScroll;
+        }
 
         public void LoadContent(ContentManager cm, string name)
         {
@@ -146,14 +157,27 @@ namespace StateMachines.Scripts
                 !currentLevel.IsWall((int)CurrentPos.X - Speed, (int)CurrentPos.Y + frame.Height - 1))
             {
                 CurrentPos.X -= Speed;
+                CanScroll = true;
+            }
+            else
+            {
+                CanScroll = false;
             }
         }
 
         public virtual void RIGHT()
         {
             if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - Speed) &&
-                !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
+                !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y)) 
+            {
                 CurrentPos.X += Speed;
+                CanScroll = true;
+            }
+            else
+            {
+                CanScroll = false;
+            }
+                
         }
 
         public void ResetPos() 

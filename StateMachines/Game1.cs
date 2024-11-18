@@ -42,7 +42,7 @@ namespace StateMachines
             // if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                // Exit();
 
-            _scenemanager.Update(this, gameTime, GraphicsDevice);
+            _scenemanager.Update(this, gameTime, GraphicsDevice, _graphics);
 
             // TODO: Add your update logic here
 
