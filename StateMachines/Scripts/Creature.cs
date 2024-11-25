@@ -27,6 +27,7 @@ namespace StateMachines.Scripts
         private double currentFrameTime;
         private double frameTimeLimit;
         private bool CanScroll = false;
+        protected Audio gameAudio;
 
         public int GetSpeed()
         {
@@ -67,8 +68,9 @@ namespace StateMachines.Scripts
 
         }
 
-        public Creature(Vector2 Pos, Rectangle rect, Level cLevel, int InputSpeed) 
+        public Creature(Vector2 Pos, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) 
         {
+            gameAudio = audio;
             frame = rect;
             currentLevel = cLevel;
             StartPos = Pos;
@@ -151,11 +153,15 @@ namespace StateMachines.Scripts
         }
 
 
-        public virtual void LEFT()
+        public virtual void LEFT(int trackIndex, float vol)
         {
             if (!currentLevel.IsWall((int)CurrentPos.X - Speed, (int)CurrentPos.Y) &&
                 !currentLevel.IsWall((int)CurrentPos.X - Speed, (int)CurrentPos.Y + frame.Height - 1))
             {
+                if (!isJumping)
+                {
+                    gameAudio.PlaySFX(vol, trackIndex); 
+                }
                 CurrentPos.X -= Speed;
                 CanScroll = true;
             }
@@ -165,11 +171,15 @@ namespace StateMachines.Scripts
             }
         }
 
-        public virtual void RIGHT()
+        public virtual void RIGHT(int trackIndex, float vol)
         {
             if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - Speed) &&
                 !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y)) 
             {
+                if (!isJumping)
+                {
+                    gameAudio.PlaySFX(vol, trackIndex);
+                }
                 CurrentPos.X += Speed;
                 CanScroll = true;
             }
@@ -243,6 +253,7 @@ namespace StateMachines.Scripts
 
             if (OnFloor || (OnPlatform && !SameRow))
             {
+                gameAudio.PlaySFX(0.25f, 3);
                 isJumping = true;
                 currentHeight = 0;
             }

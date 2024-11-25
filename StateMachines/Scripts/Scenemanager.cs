@@ -25,16 +25,16 @@ namespace StateMachines.Scripts
             //font = cm.Load<SpriteFont>("File");
             HUD.LoadContent(Content);
             play.LoadContent(Content, graphics, GraphicsDevice);
-            GameMenu = new Menu(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
+            GameMenu = new Menu(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight), audio);
         }
 
         public Scenemanager(ContentManager content)
         {
+            audio = new Audio(content);
             HUD = new HUD();
             E_States = E_Gamestates.MENU;
-            play = new PlayGame();
-            gameOver = new GameOver();
-            audio = new Audio();
+            play = new PlayGame(audio);
+            gameOver = new GameOver(audio);           
             Content = content;
         }
 

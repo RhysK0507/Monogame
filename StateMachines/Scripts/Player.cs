@@ -13,7 +13,7 @@ namespace StateMachines.Scripts
         private int InitialLives;
         private int Score;
 
-        public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed) : base(pos, rect, cLevel, InputSpeed)
+        public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio)
         {
             CurrentLives = lives;
             InitialLives = CurrentLives;
@@ -94,11 +94,15 @@ namespace StateMachines.Scripts
             }
         }
 
-        public override void LEFT()
+        public override void LEFT(int index, float vol)
         {
             if (!currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y) &&
                 !currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
             {
+                if (!isJumping)
+                {
+                    gameAudio.PlaySFX(vol, index);
+                }
                 CurrentPos.X -= 2;
             }
 
@@ -114,11 +118,15 @@ namespace StateMachines.Scripts
             }
         }
 
-        public override void RIGHT()
+        public override void RIGHT(int index, float vol)
         {
             if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width , (int)CurrentPos.Y + frame.Height - 1) &&
                 !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
             {
+                if (!isJumping)
+                {
+                    gameAudio.PlaySFX(vol, index);
+                }
                 CurrentPos.X += 2;
             }
 

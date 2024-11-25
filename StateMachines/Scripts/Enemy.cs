@@ -6,7 +6,7 @@ namespace StateMachines.Scripts
 {
     internal class Enemy : Creature
     {
-        public Enemy(Vector2 pos, Rectangle rect, Level cLevel, int InputSpeed) : base(pos, rect, cLevel, InputSpeed) 
+        public Enemy(Vector2 pos, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio) 
         {
               
         }
@@ -17,13 +17,13 @@ namespace StateMachines.Scripts
             if (player.GetPos().X > CurrentPos.X)
             {
                 E_anim = E_Gameanimations.RIGHT;
-                RIGHT();
+                RIGHT(2, 0.1f);
             }
 
             if (player.GetPos().X < CurrentPos.X)
             {
                 E_anim = E_Gameanimations.LEFT;
-                LEFT();
+                LEFT(2, 0.1f);
             }
 
             if (player.GetPos().Y < CurrentPos.Y)

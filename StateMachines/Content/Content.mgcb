@@ -116,6 +116,12 @@
 /processorParam:TextureFormat=Color
 /build:hud_heartFull.png
 
+#begin jump1.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:jump1.ogg
+
 #begin Mission Plausible.ogg
 /importer:OggImporter
 /processor:SongProcessor

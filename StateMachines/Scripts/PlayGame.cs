@@ -28,12 +28,12 @@ namespace StateMachines.Scripts
 
         public PlayGame(Audio GA)
         {
+            audio = GA;
             // Spawns the level, player and enemy.
             level = new Level();
             player = new Player(new Vector2(200, 200), 3, new Rectangle(52 * 3, 0, 52, 72), level, 2, audio);
             enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1, audio);  
             curPos = new Vector2(0, 0);
-            audio = GA;
             IsPlaying = false;
         }
 
