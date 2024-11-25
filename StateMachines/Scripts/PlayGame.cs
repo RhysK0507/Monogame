@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms.Automation;
@@ -16,6 +17,8 @@ namespace StateMachines.Scripts
         private Level level;
         private bool JumpIsPressed = false;
         private RenderTarget2D renderTarget;
+        private Audio audio;
+        private bool IsPlaying;
 
 
         private Texture2D background;
@@ -23,13 +26,15 @@ namespace StateMachines.Scripts
         private Texture2D foreground;
         private Vector2 curPos;
 
-        public PlayGame()
+        public PlayGame(Audio GA)
         {
             // Spawns the level, player and enemy.
             level = new Level();
-            player = new Player(new Vector2(200, 200), 3, new Rectangle(52 * 3, 0, 52, 72), level, 2);
-            enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1);  
+            player = new Player(new Vector2(200, 200), 3, new Rectangle(52 * 3, 0, 52, 72), level, 2, audio);
+            enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1, audio);  
             curPos = new Vector2(0, 0);
+            audio = GA;
+            IsPlaying = false;
         }
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice)
@@ -43,7 +48,6 @@ namespace StateMachines.Scripts
             graphics.PreferredBackBufferWidth = 1920;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.ApplyChanges();
-
             background = cm.Load<Texture2D>("backgroundCastlesbig");
             background2 = cm.Load<Texture2D>("castle_grey");
             foreground = cm.Load<Texture2D>("tree31");
@@ -53,6 +57,11 @@ namespace StateMachines.Scripts
 
         private void ResetAll(GraphicsDevice graphics)
         {
+            IsPlaying = false;
+            if (MediaPlayer.State == MediaState.Playing)
+            {
+                MediaPlayer.Stop();
+            }
             enemy.ResetPos();
             player.ResetPos();
             player.ResetLives();
@@ -94,7 +103,12 @@ namespace StateMachines.Scripts
         {          
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                
+                if (!IsPlaying)
+                {
+                    audio.PlaySong(1, true);
+                    IsPlaying = true;
+                }
+
                 return E_Gamestates.MENU;
             }
             player.JumpOrFall();
@@ -119,7 +133,7 @@ namespace StateMachines.Scripts
             {
                
                 player.setAnimationState(E_Gameanimations.LEFT);
-                player.LEFT();
+                player.LEFT(1, 0.25f);
                 if(player.GetScroll())
                 {
                     if (player.GetPos().X < (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth / 2 &&
@@ -134,7 +148,7 @@ namespace StateMachines.Scripts
             {
                
                 player.setAnimationState(E_Gameanimations.RIGHT);
-                player.RIGHT();
+                player.RIGHT(1, 0.25f);
                 if (player.GetPos().X < (int)GetLevelWH().X - deviceManager.PreferredBackBufferWidth / 2 &&
                     player.GetPos().X > deviceManager.PreferredBackBufferWidth / 2)
                 {
@@ -158,6 +172,7 @@ namespace StateMachines.Scripts
 
             if (enemy.CollidesWith(player))
             {
+                audio.PlaySFX(0.25f, 0);
                 player.ReduceLives();
                 player.ResetPos();
                 enemy.ResetPos();
