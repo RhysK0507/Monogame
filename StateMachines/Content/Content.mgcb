@@ -61,12 +61,36 @@
 /processorParam:TextureFormat=Color
 /build:chara6.png
 
+#begin error3.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:error3.ogg
+
+#begin Farm Frolics.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Farm Frolics.ogg
+
 #begin File.spritefont
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /processorParam:PremultiplyAlpha=True
 /processorParam:TextureFormat=Compressed
 /build:File.spritefont
+
+#begin footstep_concrete_003.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:footstep_concrete_003.ogg
+
+#begin footstep08.ogg
+/importer:OggImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:footstep08.ogg
 
 #begin hplat1.png
 /importer:TextureImporter
@@ -92,6 +116,12 @@
 /processorParam:TextureFormat=Color
 /build:hud_heartFull.png
 
+#begin Mission Plausible.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Mission Plausible.ogg
+
 #begin orc2.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -115,6 +145,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Pellet.png
+
+#begin Sad Descent.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Sad Descent.ogg
 
 #begin tree31.png
 /importer:TextureImporter
