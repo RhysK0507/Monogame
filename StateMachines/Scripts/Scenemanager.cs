@@ -13,24 +13,29 @@ namespace StateMachines.Scripts
         private PlayGame play;
         private GameOver gameOver;
         private HUD HUD;
+        private Audio audio;
+        private ContentManager Content;
+
 
         //private SpriteFont font;
         //private string text; 
 
-        public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice) 
+        public void LoadContent(GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice) 
         {
             //font = cm.Load<SpriteFont>("File");
-            HUD.LoadContent(cm);
-            play.LoadContent(cm, graphics, GraphicsDevice);
+            HUD.LoadContent(Content);
+            play.LoadContent(Content, graphics, GraphicsDevice);
             GameMenu = new Menu(new Vector2(graphics.PreferredBackBufferWidth, graphics.PreferredBackBufferHeight));
         }
 
-        public Scenemanager()
+        public Scenemanager(ContentManager content)
         {
             HUD = new HUD();
             E_States = E_Gamestates.MENU;
             play = new PlayGame();
             gameOver = new GameOver();
+            audio = new Audio();
+            Content = content;
         }
 
         public void Update(Game1 game, GameTime time, GraphicsDevice GraphicsDevice, GraphicsDeviceManager deviceManager)

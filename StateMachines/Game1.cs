@@ -24,7 +24,8 @@ namespace StateMachines
         {
             // TODO: Add your initialization logic here
 
-            _scenemanager = new Scenemanager();
+            
+            _scenemanager = new Scenemanager(Content);
 
             base.Initialize();
         }
@@ -32,7 +33,7 @@ namespace StateMachines
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            _scenemanager.LoadContent(Content, _graphics, GraphicsDevice);
+            _scenemanager.LoadContent(_graphics, GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
         }
