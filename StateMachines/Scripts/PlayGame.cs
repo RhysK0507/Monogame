@@ -3,9 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using System.IO;
-using System.Threading;
-using System.Windows.Forms.Automation;
+using System.Collections.Generic;
 
 
 namespace StateMachines.Scripts
@@ -26,6 +24,16 @@ namespace StateMachines.Scripts
         private Texture2D foreground;
         private Vector2 curPos;
 
+        private const double shotTimerLimit = 1.0f;
+        private const int maxPlayerBullets = 5;
+        private const int maxEnemyBullets = 10;
+
+        private double shotTimer;
+        private List<Projectile> playerProjectiles;
+        private List<Projectile> enemyProjectiles;
+        private bool shooting;
+        private bool canShoot;
+
         public PlayGame(Audio GA)
         {
             audio = GA;
@@ -35,6 +43,10 @@ namespace StateMachines.Scripts
             enemy = new Enemy(new Vector2(900, 600), new Rectangle(52 * 3, 72 * 4, 52, 72), level, 1, audio);  
             curPos = new Vector2(0, 0);
             IsPlaying = false;
+            shooting = false;
+            canShoot = true;
+            shotTimer = shotTimerLimit;
+
         }
 
         public void LoadContent(ContentManager cm, GraphicsDeviceManager graphics, GraphicsDevice GraphicsDevice)
@@ -52,7 +64,14 @@ namespace StateMachines.Scripts
             background2 = cm.Load<Texture2D>("castle_grey");
             foreground = cm.Load<Texture2D>("tree31");
 
+            playerProjectiles = new List<Projectile>();
+            enemyProjectiles = new List<Projectile>();
 
+            for (int index = 0; index < maxPlayerBullets; index++)
+            {
+                playerProjectiles.Add(new Projectile(cm, GraphicsDevice, graphics, 20));
+                playerProjectiles[index].LoadContent("laser player");
+            }
         }
 
         private void ResetAll(GraphicsDevice graphics)
@@ -100,7 +119,31 @@ namespace StateMachines.Scripts
         }
 
         public E_Gamestates Update(double deltaTime, GraphicsDevice GraphicsDevice, GraphicsDeviceManager deviceManager)
-        {          
+        {      
+            if (shooting)
+            {
+                shotTimer -= deltaTime;
+                if (shotTimer <= 0)
+                {
+                    shooting = false;
+                    shotTimer = shotTimerLimit;
+                }
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && shooting == false && canShoot == true)
+            {
+                shooting = true;
+                canShoot = false;
+
+                for (int index = 0; index < playerProjectiles.Count; index++)
+                {
+                    if (playerProjectiles[index].IsProjectileActive() == false)
+                    {
+                        playerProjectiles[index].ActivateBullet(new Vector2(player.GetPos().X + ))
+                    }
+                }
+            }
+
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 if (!IsPlaying)
