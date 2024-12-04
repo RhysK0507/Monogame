@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System;
 using System.Collections.Generic;
 
 
@@ -70,7 +71,7 @@ namespace StateMachines.Scripts
             for (int index = 0; index < maxPlayerBullets; index++)
             {
                 playerProjectiles.Add(new Projectile(cm, GraphicsDevice, graphics, 20));
-                playerProjectiles[index].LoadContent("laser player");
+                playerProjectiles[index].LoadContent("bullet");
             }
         }
 
@@ -108,6 +109,14 @@ namespace StateMachines.Scripts
             player.Draw(sb);
             enemy.Draw(sb);
 
+            for (int index = 0; index < playerProjectiles.Count; index++)
+            {
+                if (playerProjectiles[index].IsProjectileActive() == false)
+                {
+                    playerProjectiles[index].Draw(sb);
+                }
+            }
+
             for (int Bg = 0; Bg < 10; Bg++)
             {
                 sb.Draw(foreground, new Vector2((500 * Bg) + curPos.X * 1.25f, (float)(GetLevelWH().Y - foreground.Height)), Color.White);
@@ -131,7 +140,7 @@ namespace StateMachines.Scripts
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && shooting == false && canShoot == true)
-            {
+            {        
                 shooting = true;
                 canShoot = false;
 
@@ -139,7 +148,34 @@ namespace StateMachines.Scripts
                 {
                     if (playerProjectiles[index].IsProjectileActive() == false)
                     {
-                        playerProjectiles[index].ActivateBullet(new Vector2(player.GetPos().X + ))
+                        playerProjectiles[index].ActivateBullet(new Vector2 (player.GetPos().X + player.GetSpriteWidth(),
+                            player.GetPos().Y + (player.GetSpriteHeight() / 2)));
+                        break;
+                    }
+                } 
+            }
+
+            if (Keyboard.GetState().IsKeyUp(Keys.Space) && shooting == false && canShoot == true)
+            {
+                canShoot = true;
+            }
+
+            if (enemy.GetPos().X < deviceManager.PreferredBackBufferWidth)
+            {
+                if (enemy.GetPos().X > 0) 
+                {
+                    int num = Random.Shared.Next(0, 999);
+                    if (num > 992)
+                    {
+                        for (int index1 = 0; index1 < enemyProjectiles.Count; index1++)
+                        {
+                            if (enemyProjectiles[index1].IsProjectileActive() == false)
+                            {
+                                enemyProjectiles[index1].ActivateBullet(new Vector2(enemy.GetPos().X,
+                                    enemy.GetPos().Y + (enemy.GetSpriteHeight() / 2))); 
+                                break;
+                            }
+                        }
                     }
                 }
             }
@@ -209,6 +245,23 @@ namespace StateMachines.Scripts
             //    player.DOWN();
             //}
 
+
+            for (int index = 0; index < enemyProjectiles.Count; index++)
+            {
+                if (enemyProjectiles[index].IsProjectileActive() == true)
+                {
+                    enemyProjectiles[index].Update(level, true);
+                    if (enemyProjectiles[index].CollidesWith(player)) 
+                    {
+                        enemyProjectiles[index].ResetBullet();
+                        audio.PlaySFX(0.25f, 0);
+                        player.ReduceLives();
+                        player.ResetPos();
+                        enemy.ResetPos();
+                        System.Console.WriteLine("Player lives" + player.GetLives());
+                    }
+                }
+            }
 
             enemy.Chase(player);
             enemy.setCurrentFrame(deltaTime);

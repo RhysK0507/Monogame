@@ -24,9 +24,9 @@ namespace StateMachines.Scripts
 
         public Projectile(ContentManager contentManager, GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, int speed) 
         {
-            contentManager = content;
-            graphicsDevice = graphics;
-            graphicsDeviceManager = deviceManager;
+            content = contentManager;
+            graphics = graphicsDevice;
+            deviceManager = graphicsDeviceManager;
             inUseProjectile = false;
             speed = projectileSpeed;
             pos = Vector2.Zero;
@@ -67,14 +67,17 @@ namespace StateMachines.Scripts
             sprite.Draw(bullet, pos, new Rectangle(0, 0, bullet.Width, bullet.Height), Color.White);
         }
 
-        private void CollidesWith(Creature creature) 
+        public bool CollidesWith(Creature creature) 
         {
             if (pos.X <= creature.GetPos().X + GetSpriteWidth() - 1
                 && pos.X + GetSpriteWidth() - 1 >= creature.GetPos().X
                 && pos.Y <= creature.GetPos().Y + GetSpriteHeight() - 1
                 && pos.Y + GetSpriteHeight() - 1 >= creature.GetPos().Y)
             {
-                inUseProjectile = true;
+                return true;
+            } else
+            {
+                return false;  
             }
         }
 
@@ -108,6 +111,6 @@ namespace StateMachines.Scripts
         public Vector2 GetPosition()
         {
             return pos;
-        } 
+        }
     }
 }

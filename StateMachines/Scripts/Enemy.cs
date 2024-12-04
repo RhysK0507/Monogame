@@ -61,6 +61,11 @@ namespace StateMachines.Scripts
             }
         }
 
+        public int GetSpriteHeight()
+        {
+            return frame.Height;
+        }
+
         //public bool Caught(Player player)
         //{
         //    if (player.GetPos() == this.GetPos())

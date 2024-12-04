@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SharpDX.Direct3D9;
+using System.Reflection.Metadata.Ecma335;
 
 
 namespace StateMachines.Scripts
@@ -22,7 +23,17 @@ namespace StateMachines.Scripts
 
         public int GetLives()
         {
-            return CurrentLives; 
+            return CurrentLives;
+        }
+
+        public int GetSpriteHeight()
+        {
+            return frame.Height;
+        }
+
+        public int GetSpriteWidth()
+        {
+            return frame.Width;
         }
 
         public void ReduceLives()
