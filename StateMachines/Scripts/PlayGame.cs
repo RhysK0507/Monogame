@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 
 
 namespace StateMachines.Scripts
@@ -72,6 +73,12 @@ namespace StateMachines.Scripts
             {
                 playerProjectiles.Add(new Projectile(cm, GraphicsDevice, graphics, 20));
                 playerProjectiles[index].LoadContent("bullet");
+            }
+
+            for (int index = 0; index < maxEnemyBullets; index++)
+            {
+                enemyProjectiles.Add(new Projectile(cm, GraphicsDevice, graphics, 20));
+                enemyProjectiles[index].LoadContent("bullet");
             }
         }
 
@@ -155,11 +162,21 @@ namespace StateMachines.Scripts
                 for (int index = 0; index < playerProjectiles.Count; index++)
                 {
                     if (playerProjectiles[index].IsProjectileActive() == false)
-                    {
-                        playerProjectiles[index].ActivateBullet(new Vector2 (player.GetPos().X + player.GetSpriteWidth(),
-                            player.GetPos().Y + (player.GetSpriteHeight() / 2)));
-                        break;
-                    }
+                        if (player.GetMovingRight() == true)
+                        {
+                            {
+                                playerProjectiles[index].SetMovingRight(true);
+                                playerProjectiles[index].ActivateBullet(new Vector2(player.GetPos().X + player.GetSpriteWidth(),
+                                    player.GetPos().Y + (player.GetSpriteHeight() / 2)));
+                                break;
+                            }
+                        } else if (player.GetMovingRight() == false)
+                        {
+                            playerProjectiles[index].SetMovingRight(false);
+                            playerProjectiles[index].ActivateBullet(new Vector2(player.GetPos().X - player.GetSpriteWidth(),
+                                    player.GetPos().Y + (player.GetSpriteHeight() / 2)));
+                            break;
+                        }                 
                 } 
             }
 

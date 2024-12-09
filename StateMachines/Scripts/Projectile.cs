@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Media;
 using System.Windows.Forms;
+using SharpDX.XAudio2;
 
 namespace StateMachines.Scripts
 {
@@ -21,6 +22,8 @@ namespace StateMachines.Scripts
         private Vector2 pos;
         private int projectileSpeed;
         private Level level;
+        private bool movingRight;
+
 
         public Projectile(ContentManager contentManager, GraphicsDevice graphicsDevice, GraphicsDeviceManager graphicsDeviceManager, int speed) 
         {
@@ -51,13 +54,27 @@ namespace StateMachines.Scripts
             }
             if (!isEnemyFiring)
             {
-                if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
+                if (movingRight) 
                 {
-                    pos.X += projectileSpeed;
+                    if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
+                    {
+                        pos.X += projectileSpeed;
+                    }
+                    else
+                    {
+                        inUseProjectile = false;
+                    }
                 }
-                else
+                else 
                 {
-                    inUseProjectile = false;
+                    if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
+                    {
+                        pos.X -= projectileSpeed;
+                    }
+                    else
+                    {
+                        inUseProjectile = false;
+                    }
                 }
             }
         }
@@ -100,6 +117,11 @@ namespace StateMachines.Scripts
         public bool IsProjectileActive()
         {
             return inUseProjectile; 
+        }
+
+        public void SetMovingRight(bool moveRight) 
+        {
+            movingRight = moveRight;
         }
 
         public void ResetBullet()

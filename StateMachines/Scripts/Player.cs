@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using SharpDX.Direct3D9;
 using System.Reflection.Metadata.Ecma335;
+using System.Threading;
 
 
 namespace StateMachines.Scripts
@@ -13,6 +14,7 @@ namespace StateMachines.Scripts
         private int CurrentLives;
         private int InitialLives;
         private int Score;
+        private bool IsMovingRight = true;
 
         public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio)
         {
@@ -29,6 +31,11 @@ namespace StateMachines.Scripts
         public int GetSpriteHeight()
         {
             return frame.Height;
+        }
+
+        public bool GetMovingRight()
+        {
+            return IsMovingRight;
         }
 
         public int GetSpriteWidth()
@@ -107,6 +114,7 @@ namespace StateMachines.Scripts
 
         public override void LEFT(int index, float vol)
         {
+            IsMovingRight = false;
             if (!currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y) &&
                 !currentLevel.IsWall((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
             {
@@ -131,6 +139,7 @@ namespace StateMachines.Scripts
 
         public override void RIGHT(int index, float vol)
         {
+            IsMovingRight = true;
             if (!currentLevel.IsWall((int)CurrentPos.X + frame.Width , (int)CurrentPos.Y + frame.Height - 1) &&
                 !currentLevel.IsWall((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
             {
