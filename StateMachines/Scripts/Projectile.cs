@@ -28,20 +28,20 @@ namespace StateMachines.Scripts
             graphics = graphicsDevice;
             deviceManager = graphicsDeviceManager;
             inUseProjectile = false;
-            speed = projectileSpeed;
-            pos = Vector2.Zero;
-            }
+            projectileSpeed = speed;
+            pos = Vector2.Zero;            
+        }
 
         public void LoadContent(string name)
         {
             bullet = content.Load<Texture2D>(name);
         }
 
-        public void Update(Level returnLevel, bool isEnemyFiring)
+        public void Update(Level level, bool isEnemyFiring)
         {
             if (isEnemyFiring)
             {
-                if (!level.IsWall((int)pos.X - 1, (int)pos.Y) == false)
+                if (!level.IsWall((int)pos.X - 1, (int)pos.Y))
                 {
                     pos.X -= projectileSpeed;
                 } else
@@ -51,7 +51,7 @@ namespace StateMachines.Scripts
             }
             if (!isEnemyFiring)
             {
-                if (!level.IsWall((int)pos.X + 1, (int)pos.Y) == false)
+                if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
                 {
                     pos.X += projectileSpeed;
                 }
@@ -83,12 +83,12 @@ namespace StateMachines.Scripts
 
         private int GetSpriteWidth()
         {
-            return 335;
+            return bullet.Width;
         }
 
         private int GetSpriteHeight()
         {
-            return 159;
+            return 62;
         }
 
         public void ActivateBullet(Vector2 startPos)

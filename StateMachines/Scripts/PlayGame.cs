@@ -111,9 +111,17 @@ namespace StateMachines.Scripts
 
             for (int index = 0; index < playerProjectiles.Count; index++)
             {
-                if (playerProjectiles[index].IsProjectileActive() == false)
+                if (playerProjectiles[index].IsProjectileActive() == true)
                 {
                     playerProjectiles[index].Draw(sb);
+                }
+            }
+
+            for (int index = 0; index < enemyProjectiles.Count; index++)
+            {
+                if (enemyProjectiles[index].IsProjectileActive() == true)
+                {
+                    enemyProjectiles[index].Draw(sb);
                 }
             }
 
@@ -155,7 +163,7 @@ namespace StateMachines.Scripts
                 } 
             }
 
-            if (Keyboard.GetState().IsKeyUp(Keys.Space) && shooting == false && canShoot == true)
+            if (Keyboard.GetState().IsKeyUp(Keys.Space))
             {
                 canShoot = true;
             }
@@ -265,6 +273,19 @@ namespace StateMachines.Scripts
 
             enemy.Chase(player);
             enemy.setCurrentFrame(deltaTime);
+
+            for (int index = 0; index < playerProjectiles.Count; index++)
+            {
+                if (playerProjectiles[index].IsProjectileActive() == true)
+                {
+                    playerProjectiles[index].Update(level, false);
+                    if (playerProjectiles[index].CollidesWith(enemy))
+                    {
+                        enemy.ResetPos();
+                        playerProjectiles[index].ResetBullet();
+                    }
+                }
+            }
 
             if (enemy.CollidesWith(player))
             {
