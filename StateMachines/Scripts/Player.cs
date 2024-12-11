@@ -14,6 +14,7 @@ namespace StateMachines.Scripts
         private int Score;
         private bool IsMovingRight = true;
         private Scenemanager Scenemanager;
+        private Enemy Enemy;
 
         public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio)
         {
@@ -169,6 +170,9 @@ namespace StateMachines.Scripts
             {
                 currentLevel.addLevel();
                 currentLevel.BuildNewLevel();
+                ResetLives();
+                ResetPos();
+                Enemy.ResetPos();
             }
         }
     }
