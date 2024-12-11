@@ -44,14 +44,30 @@ namespace StateMachines.Scripts
         {
             if (isEnemyFiring)
             {
-                if (!level.IsWall((int)pos.X - 1, (int)pos.Y))
+                if (movingRight)
                 {
-                    pos.X -= projectileSpeed;
-                } else
+                    if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
+                    {
+                        pos.X += projectileSpeed;
+                    }
+                    else
+                    {
+                        inUseProjectile = false;
+                    }
+                }
+                else
                 {
-                    inUseProjectile = false;
+                    if (!level.IsWall((int)pos.X + 1, (int)pos.Y))
+                    {
+                        pos.X -= projectileSpeed;
+                    }
+                    else
+                    {
+                        inUseProjectile = false;
+                    }
                 }
             }
+
             if (!isEnemyFiring)
             {
                 if (movingRight) 

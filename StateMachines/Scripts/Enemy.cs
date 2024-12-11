@@ -1,11 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
 namespace StateMachines.Scripts
 {
     internal class Enemy : Creature
     {
+
+        private bool IsMovingRight = true;
         public Enemy(Vector2 pos, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio) 
         {
               
@@ -16,12 +19,14 @@ namespace StateMachines.Scripts
         {
             if (player.GetPos().X > CurrentPos.X)
             {
+                IsMovingRight = true;
                 E_anim = E_Gameanimations.RIGHT;
                 RIGHT(2, 0.1f);
             }
 
             if (player.GetPos().X < CurrentPos.X)
             {
+                IsMovingRight = false;
                 E_anim = E_Gameanimations.LEFT;
                 LEFT(2, 0.1f);
             }
@@ -64,6 +69,16 @@ namespace StateMachines.Scripts
         public int GetSpriteHeight()
         {
             return frame.Height;
+        }
+
+        public int GetSpriteWidth()
+        {
+            return frame.Width;
+        }
+
+        public bool GetMovingRight()
+        {
+            return IsMovingRight;
         }
 
         //public bool Caught(Player player)

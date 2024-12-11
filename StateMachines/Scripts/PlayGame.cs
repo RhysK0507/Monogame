@@ -193,13 +193,23 @@ namespace StateMachines.Scripts
                     if (num > 992)
                     {
                         for (int index1 = 0; index1 < enemyProjectiles.Count; index1++)
-                        {
+                        {                            
                             if (enemyProjectiles[index1].IsProjectileActive() == false)
-                            {
-                                enemyProjectiles[index1].ActivateBullet(new Vector2(enemy.GetPos().X,
-                                    enemy.GetPos().Y + (enemy.GetSpriteHeight() / 2))); 
-                                break;
-                            }
+                                if (enemy.GetMovingRight() == true)
+                                {
+                                    {
+                                        enemyProjectiles[index1].SetMovingRight(true);
+                                        enemyProjectiles[index1].ActivateBullet(new Vector2(enemy.GetPos().X,
+                                            enemy.GetPos().Y + (enemy.GetSpriteHeight() / 2)));
+                                        break;
+                                    }
+                                } else if (enemy.GetMovingRight() == false) 
+                                {
+                                    enemyProjectiles[index1].SetMovingRight(false);
+                                    enemyProjectiles[index1].ActivateBullet(new Vector2(enemy.GetPos().X - enemy.GetSpriteWidth(),
+                                        enemy.GetPos().Y + (enemy.GetSpriteHeight() / 2)));
+                                    break;
+                                }                           
                         }
                     }
                 }
