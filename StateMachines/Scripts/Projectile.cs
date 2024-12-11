@@ -121,7 +121,7 @@ namespace StateMachines.Scripts
 
         private int GetSpriteHeight()
         {
-            return 62;
+            return bullet.Height;
         }
 
         public void ActivateBullet(Vector2 startPos)

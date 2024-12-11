@@ -20,6 +20,8 @@ namespace StateMachines.Scripts
         private string[] levelfile;
         private int currentLevel;
         private bool[,] Items = new bool[10,21];
+        private int numOfPickups;
+        private int maxNumPickups;
         
         public Level()
         {
@@ -69,6 +71,8 @@ namespace StateMachines.Scripts
         {
             // Gets level and level size, checks if there is a P for pickup.
             levelfile = File.ReadAllLines(@"..\Levels\Level " + currentLevel + ".txt");
+            maxNumPickups = 0;
+
             for (int col = 0; col < GetArrayWidth(); col++)
             {
                 for (int row = 0; row < GetArrayHeight(); row++)
@@ -76,13 +80,30 @@ namespace StateMachines.Scripts
                     if (levelfile[row][col] == 'P')
                     {
                         Items[row,col] = true;
+                        maxNumPickups++;
                     }
                 }
             }
+
             foreach (var line in levelfile)
             {
                 Console.WriteLine(line);
             }
+        }
+
+        public void AddPickedup()
+        {
+            numOfPickups++;
+        }
+
+        public int GetNumPickups()
+        {
+            return numOfPickups;
+        }
+
+        public int GetMaxPickups()
+        {
+            return maxNumPickups;
         }
 
         public void ResetLevel()
@@ -133,12 +154,17 @@ namespace StateMachines.Scripts
             {
                 for (int row = 0; row < GetArrayHeight(); row++)
                 {                    
-                     if (Items[row,col] == true)
-                     {
+                     if (Items[row, col] == true)
+                    {
                         sprite.Draw(pellet, new Vector2(wall.Width * col, wall.Height * row), Color.White);
                      }                    
                 }
-            }
+            }           
+        }
+
+        public void DecreasePickups()
+        {
+            numOfPickups--;
         }
 
         // Draws pellet for pick up

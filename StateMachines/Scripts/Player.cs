@@ -2,9 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
-using SharpDX.Direct3D9;
-using System.Reflection.Metadata.Ecma335;
-using System.Threading;
+using System;
 
 
 namespace StateMachines.Scripts
@@ -15,6 +13,7 @@ namespace StateMachines.Scripts
         private int InitialLives;
         private int Score;
         private bool IsMovingRight = true;
+        private Scenemanager Scenemanager;
 
         public Player(Vector2 pos,int lives, Rectangle rect, Level cLevel, int InputSpeed, Audio audio) : base(pos, rect, cLevel, InputSpeed, audio)
         {
@@ -76,12 +75,12 @@ namespace StateMachines.Scripts
             if (currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y - 1))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X, (int)CurrentPos.Y - 1);
-                Score += 10;
+                AddScore(10);
             }
             else if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y - 1);
-                Score += 10;
+                AddScore(10);
             }
         }
 
@@ -103,12 +102,12 @@ namespace StateMachines.Scripts
             if (currentLevel.IsPickUp((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height)) 
             {
                 currentLevel.RemoveItem((int)CurrentPos.X, (int)CurrentPos.Y + frame.Height);
-                Score += 10;
+                AddScore(10);
             }
-             else if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
+            else if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X + frame.Width - 1, (int)CurrentPos.Y + frame.Height);
-                Score += 10;
+                AddScore(10);
             }
         }
 
@@ -128,12 +127,12 @@ namespace StateMachines.Scripts
             if (currentLevel.IsPickUp((int)CurrentPos.X - 1, (int)CurrentPos.Y)) 
             {
                 currentLevel.RemoveItem((int)CurrentPos.X - 1, (int)CurrentPos.Y);
-                Score += 10;
+                AddScore(10);
             }
             else if (currentLevel.IsPickUp((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X - 1, (int)CurrentPos.Y + frame.Height - 1);
-                Score += 10;
+                AddScore(10);
             }
         }
 
@@ -153,12 +152,23 @@ namespace StateMachines.Scripts
             if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - 1))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y + frame.Height - 1);
-                Score += 10;
+                AddScore(10);
             }
-             else if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
+            else if (currentLevel.IsPickUp((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y))
             {
                 currentLevel.RemoveItem((int)CurrentPos.X + frame.Width, (int)CurrentPos.Y);
-                Score += 10;
+                AddScore(10);
+            }
+        }
+
+        public void AddScore(int tempScore)
+        {
+            Score += tempScore;
+            currentLevel.AddPickedup();
+            if (currentLevel.GetMaxPickups() - currentLevel.GetNumPickups() == 0)
+            {
+                currentLevel.addLevel();
+                currentLevel.BuildNewLevel();
             }
         }
     }
